@@ -67,7 +67,7 @@ CREATE TABLE 'school'.'student' (
 	'num' INT NULL,
 	'snum' INT NULL,
 	
-PRIMARY KEY('id) )
+PRIMARY KEY('id') )
 
 ENGINE InnoDB
 
