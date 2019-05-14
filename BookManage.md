@@ -1,6 +1,6 @@
 # Struts2 + Hibernate
 
-MySQL
+### MySQL
 
 `Create a Schema called "school"`
 
@@ -116,7 +116,9 @@ New Dynamic Web Project called ***BookManage***
 ```java
 package org.model;
 
-public class Login {
+import java.io.Serializable;
+
+public class Login implements Serializable {
 
 	private Integer id;
 	private String name;
@@ -129,7 +131,9 @@ public class Login {
 ```java
 package org.model;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
 
 	private Integer id;
 	private String ISBN;
@@ -147,9 +151,10 @@ public class Book {
 ```java
 package org.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Student {
+public class Student implements Serializable {
 
 	private Integer id;
 	private String readerId;
@@ -166,9 +171,10 @@ public class Student {
 ```java
 package org.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Lend {
+public class Lend implememts Serializable {
 
 	private Integer id;
 	private String bookId;
@@ -184,4 +190,185 @@ public class Lend {
 
 <br>
 
+### Hibernate XML Mapping file (hbm.xml)
 
+<h3>
+
+修改 主索引 assigned 變成 native
+
+加上 屬性 catalog="SCHOOL" 對應到資料庫的Schema
+
+</h3>
+
+<br>
+
+Login.hbm.xml
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2019/5/12 ?????? 11:28:56 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="org.model.Login" table="LOGIN" catalog="SCHOOL">
+		<id name="id" type="java.lang.Integer">
+			<column name="ID" />
+			<generator class="native" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="NAME" />
+		</property>
+		<property name="password" type="java.lang.String">
+			<column name="PASSWORD" />
+		</property>
+		<property name="role" type="boolean">
+			<column name="ROLE" />
+		</property>
+	</class>
+</hibernate-mapping>
+```
+
+<br>
+
+Book.hbm.xml
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2019/5/12 ?????? 11:25:41 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="org.model.Book" table="BOOK" catalog="SCHOOL">
+		<id name="id" type="java.lang.Integer>
+			<column name="ID" />
+			<generator class="native" />
+		</id>
+		<property name="ISBN" type="java.lang.String">
+			<column name="ISBN" />
+		</property>
+		<property name="bookName" type="java.lang.String">
+			<column name="BOOKNAME" />
+		</property>
+		<property name="author" type="java.lang.String">
+			<column name="AUTHOR" />
+		</property>
+		<property name="publisher" type="java.lang.String">
+			<column name="PUBLISHER" />
+		</property>
+		<property name="price" type="float">
+			<column name="PRICE" />
+		</property>
+		<property name="cnum" type="int">
+			<column name="CNUM" />
+		</property>
+		<property name="snum" type="int">
+			<column name="SNUM" />
+		</property>
+		<property name="summary" type="java.lang.String">
+			<column name="SUMMARY" />
+		</property>
+	</class>
+</hibernate-mapping>
+```
+
+<br>
+
+Student.hbm.xml
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2019/5/12 ?????? 11:29:31 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="org.model.Student" table="STUDENT" catalog="SCHOOL">
+		<id name="id" type="java.lang.Integer">
+			<column name="ID" />
+			<generator class="native" />
+		</id>
+		<property name="readerId" type="java.lang.String">
+			<column name="READERID" />
+		</property>
+		<property name="name" type="java.lang.String>
+			<column name="NAME" />
+		</property>
+		<property name="spec" type="java.lang.String">
+			<column name="SPEC" />
+		</property>
+		<property name="sex" type="boolean">
+			<column name="SEX" />
+		</property>
+		<property name="born" type="java.util.Date">
+			<column name="BORN" />
+		</property>
+		<property name="num" type="int">
+			<column name="NUM" />
+		</property>
+		<property name="snum" type="int">
+			<column name="SNUM" />
+		</property>
+	</class>
+</hibernate-mapping>
+```
+
+<br>
+
+Lend.hbm.xml
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2019/5/12 ?????? 11:28:27 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="org.model.Lend" table="LEND" catalog="SCHOOL">
+		<id name="id" type="java.lang.Integer">
+			<column name="ID" />
+			<generator class="native" />
+		</id>
+		<property name="bookId" type="java.lang.String>
+			<column name="BOOKID" />
+		</property>
+		<property name="readerId" type="java.lang.String>
+			<column name="READERID" />
+		</property>
+		<property name="bookName" type="java.lang.String>
+			<column name="BOOKNAME" />
+		</property>
+		<property name="publisher" type="java.lang.String>
+			<column name="PUBLISHER" />
+		</property>
+		<property name="price" type="float">
+			<column name="PRICE" />
+		</property>
+		<property name="ISBN" type="java.lang.String">
+			<column name="ISBN" />
+		</property>
+		<property name="lTime" type="java.util.Date">
+			<column name="LTIME" />
+		</property>
+	</class>
+</hibernate-mapping>
+```
+
+<br>
+
+### Generate /src/hibernate.cfg.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory name="">
+		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="hibernate.connection.password">11111111</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/school</property>
+		<property name="hibernate.connection.username">root</property>
+		<mapping resource="org/model/Login.hbm.xml" />
+		<mapping resource="org/model/Book.hbm.xml" />
+		<mapping resource="org/model/Student.hbm.xml" />
+		<mapping resource="org/model/Lend.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>
+```
