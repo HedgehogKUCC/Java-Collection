@@ -174,7 +174,7 @@ package org.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Lend implememts Serializable {
+public class Lend implements Serializable {
 
 	private Integer id;
 	private String bookId;
@@ -192,13 +192,9 @@ public class Lend implememts Serializable {
 
 ### Hibernate XML Mapping file (hbm.xml)
 
-<h3>
+`修改 主索引 assigned 變成 native`
 
-修改 主索引 assigned 變成 native
-
-加上 屬性 catalog="SCHOOL" 對應到資料庫的Schema
-
-</h3>
+`加上 屬性 catalog="SCHOOL" 對應到資料庫的 Schema`
 
 <br>
 
@@ -239,7 +235,7 @@ Book.hbm.xml
 <!-- Generated 2019/5/12 ?????? 11:25:41 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
 	<class name="org.model.Book" table="BOOK" catalog="SCHOOL">
-		<id name="id" type="java.lang.Integer>
+		<id name="id" type="java.lang.Integer">
 			<column name="ID" />
 			<generator class="native" />
 		</id>
@@ -289,7 +285,7 @@ Student.hbm.xml
 		<property name="readerId" type="java.lang.String">
 			<column name="READERID" />
 		</property>
-		<property name="name" type="java.lang.String>
+		<property name="name" type="java.lang.String">
 			<column name="NAME" />
 		</property>
 		<property name="spec" type="java.lang.String">
@@ -326,16 +322,16 @@ Lend.hbm.xml
 			<column name="ID" />
 			<generator class="native" />
 		</id>
-		<property name="bookId" type="java.lang.String>
+		<property name="bookId" type="java.lang.String">
 			<column name="BOOKID" />
 		</property>
-		<property name="readerId" type="java.lang.String>
+		<property name="readerId" type="java.lang.String">
 			<column name="READERID" />
 		</property>
-		<property name="bookName" type="java.lang.String>
+		<property name="bookName" type="java.lang.String">
 			<column name="BOOKNAME" />
 		</property>
-		<property name="publisher" type="java.lang.String>
+		<property name="publisher" type="java.lang.String">
 			<column name="PUBLISHER" />
 		</property>
 		<property name="price" type="float">
