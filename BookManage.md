@@ -109,6 +109,8 @@ New Dynamic Web Project called ***BookManage***
 
 ***org.action*** , 管理畫面的操作流程 (Control) 與 View 有關
 
+***org.DBconn*** , 連線功能
+
 ***org.tool*** , 額外的功能 class
 
 /src New Class called ***Login*** , ***Book*** , ***Student*** , ***Len***
@@ -367,4 +369,300 @@ Lend.hbm.xml
 		<mapping resource="org/model/Lend.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>
+```
+
+<br>
+
+DBCONN.java
+
+```java
+package org.DBconn;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class DBCONN {
+
+	public static Session Conn() {
+	
+		Configuration conn = new Configuration().configure();
+		
+		SessionFactory sf = conn.buildSessionFactory();
+		
+		Session se = sf.openSession();
+		
+		return se;
+	}
+	
+	// determine if connection
+	public static void main(String[] args) {
+	
+		System.out.println(DBCONN.Conn());
+	}
+}
+```
+
+<br>
+
+bookDao.java
+
+```java
+package org.dao;
+
+import org.DBconn.DBCONN;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.model.Book;
+
+public class bookDao {
+
+	public static void add(Book b) {
+	
+		Session se = DBCONN.Conn();
+		
+		Transaction tx = se.beginTransaction();
+		
+		se.save(b);
+		tx.commit();
+	}
+	
+	public static Book load(int id) {
+	
+		Session se = DBCONN.Conn();
+		
+		Book b = (Book) se.get(Book.class , new Integer(id) );
+		
+		return b;
+	}
+	
+	public static void Update(int id, String bookname) {
+	
+		Session se = DBCONN.Conn();
+		
+		Book b = (Book) se.get(Book.class , new Integer(id) );
+		
+		b.setBookName(bookname);
+		
+		Transaction tx = se.beginTransaction();
+		
+		se.update(b);
+		
+		tx.commit();
+	}
+	
+	public static void Delete(int id) {
+	
+		Session se = DBCONN.Conn();
+		
+		Book b = (Book) se.get(Book.class , new Integer(id) );
+		
+		Transaction tx = se.beginTransaction();
+		
+		se.delete(b);
+		
+		tx.commit();
+	}
+}
+	
+```
+
+<br>
+
+### Generate Deployment Descriptor Stub
+
+`web.xml`
+
+```xml
+<?xml version="1.0". encoding="UTF-8"?>
+<web-app 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+	<display-name>BookManage</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/*<url-pattern>
+	</filter-mapping>
+</web-app>
+```
+
+<br>
+
+`struts.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+	<package name="default" extends="struts-default">
+	
+		<action name="add" class="org.action.BookAction">
+		
+			<result name="success">/success.jsp</result>
+		
+		</action>
+		
+	</package>
+	
+</struts>
+```
+
+<br>
+
+`BookAction.java`
+
+```java
+package org.action;
+
+import org.dao.bookDao;
+import org.model.Book;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+public class BookAction extends ActionSupport {
+
+	private String ISBN;
+	private String bookName;
+	private String author;
+	private String publisher;
+	private float price;
+	private int cnum;
+	private int snum;
+	private String summary;
+	
+	public String execute() throws Exception {
+	
+		Book b = new Book();
+		
+		b.setISBN(ISBN);
+		b.setBookName(bookName);
+		b.setAuthor(author);
+		b.setPublisher(publisher);
+		b.setPrice(price);
+		b.setCnum(cnum);
+		b.setSnum(snum);
+		b.setSummary(summary);
+		
+		bookDao.add(b);
+		
+		return SUCCESS;
+	}
+	
+	// Getters / Setters
+}
+```
+
+<br>
+
+`index.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>圖書館-管理系統</title>
+</head>
+<body>
+	<table width="300" align="center" border="1">
+		<tr>
+			<td align="center"><a href="add.jsp">新增</a></td>
+		</tr>
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+`add.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" %>
+<%@taglib prefix="s" uri="/struts-tags" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>新增</title>
+</head>
+<body bgcolor="#6698FF">
+<s:form action="add" method="post" theme="simple">
+	<table align="center">
+		<caption>新增頁面</caption>
+		<tr>
+			<td>ISBN <s:textfield name="ISBN" size="20" /></td>
+		</tr>
+		<tr>
+			<td>書名 <s:textfield name="bookName" size="20" /></td>
+		</tr>
+		<tr>
+			<td>作者 <s:textfield name="author" size="20" /></td>
+		</tr>
+		<tr>
+			<td>出版社 <s:textfield name="publisher" size="20" /></td>
+		</tr>
+		<tr>
+			<td>價格 <s:textfield name="price" size="20" /></td>
+		</tr>
+		<tr>
+			<td>數量 <s:textfield name="cnum" size="20" /></td>
+		</tr>
+		<tr>
+			<td>庫存 <s:textfield name="snum" size="20" /></td>
+		</tr>
+		<tr>
+			<td>備註 <s:textarea name="summary" /></td>
+		</tr>
+		<tr>
+			<td>
+				<s:submit value="送出" />
+				<s:reset value="重設" />
+			</td>
+		</tr>
+	</table>
+</s:form>
+</body>
+</html>
+```
+
+<br>
+
+`success.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SUCCESS</title>
+</head>
+<body>
+<h1>新增至資料庫成功</h1>
+</body>
+</html>
 ```
