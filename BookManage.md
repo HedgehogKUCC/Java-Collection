@@ -103,7 +103,7 @@ New Dynamic Web Project called ***BookManage***
 
 /src New Package called
 
-***org.maodel*** , 需要的 class ( 與 資料庫中 Table 有關 )
+***org.model*** , 需要的 class ( 與 資料庫中 Table 有關 )
 
 ***org.dao*** , 管理資料庫的 method
 
