@@ -1,4 +1,4 @@
-New Dynamic Web Project celled ***struts1***
+New Dynamic Web Project called ***struts1***
 
 <h3>
 
