@@ -52,7 +52,7 @@ Generate Deployment Descriptor Stub
 
 再 Run on Server 看看能不能 成功打開網頁
 
-成功： 代表`<filter><filter-mapping>`其中內容沒有字打錯，web.xml 也有找到 `struts2-core-2.5.14.jar`
+成功： 代表`<filter>` `<filter-mapping>`其中內容沒有字打錯，web.xml 也有找到 `struts2-core-2.5.14.jar`
 
 <br>
 
