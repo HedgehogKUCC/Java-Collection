@@ -12,7 +12,7 @@ New Dynamic Web Project called ***struts2***
 
 <br>
 
-掛進 .jar 至 /WebContent/WEB-INF/lib 裡面後
+掛進 struts2.jar 至 /WebContent/WEB-INF/lib 裡面後
 
 Generate Deployment Descriptor Stub
 

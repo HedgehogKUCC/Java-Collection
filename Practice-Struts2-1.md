@@ -22,7 +22,7 @@ New JSP File 出來後這行出現錯誤
 
 <br>
 
-掛進 .jar 至 /WebContent/WEB-INF/lib 裡面後
+掛進 struts2.jar 至 /WebContent/WEB-INF/lib 裡面後
 
 Generate Deployment Descriptor Stub
 
