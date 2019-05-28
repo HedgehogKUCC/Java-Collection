@@ -8,6 +8,16 @@ New Dynamic Web Project called ***struts1***
 
 看能不能 Run on Server 成功
 
+注意：
+
+New JSP File 出來後這行出現錯誤
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+請把 servlet-api.jar 掛進 /WebContent/WEB-INF/lib 裡面
+
+而 servlet-api.jar 在 資料夾(apache-tomcat-8.5.34/lib) 裡面 可以找到
+
 </h3>
 
 <br>
@@ -53,51 +63,6 @@ Generate Deployment Descriptor Stub
 再 Run on Server 看看能不能 成功打開網頁
 
 成功： 代表`<filter>` `<filter-mapping>`其中內容沒有字打錯，web.xml 也有找到 `struts2-core-2.5.14.jar`
-
-<br>
-
-/WebContent New JSP File called ***index*** , ***hello***
-
-`index.jsp`
-
-```jsp
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Index</title>
-</head>
-<body>
-
-<a href="hello" target=_blank>hello.jsp</a>
-<!-- href="hello" 對應到 struts.xml 中 <action name="hello"> -->
-
-</body>
-</html>
-```
-
-<br>
-
-`hello.jsp`
-
-```jsp
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Hello</title>
-</head>
-<body>
-
-<h1>Hello Struts2</h1>
-
-</body>
-</html>
-```
 
 <br>
 
@@ -148,3 +113,47 @@ public class MyAction extends ActionSupport {
 </struts>
 ```
 
+<br>
+
+/WebContent New JSP File called ***index*** , ***hello***
+
+`index.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Index</title>
+</head>
+<body>
+
+<a href="hello" target=_blank>hello.jsp</a>
+<!-- href="hello" 對應到 struts.xml 中 <action name="hello"> -->
+
+</body>
+</html>
+```
+
+<br>
+
+`hello.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hello</title>
+</head>
+<body>
+
+<h1>Hello Struts2</h1>
+
+</body>
+</html>
+```

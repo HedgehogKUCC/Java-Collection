@@ -48,6 +48,85 @@ Generate Deployment Descriptor Stub
 
 <br>
 
+/src New Package called ***org.action***
+
+/src/org/action New Class called ***LoginAction***
+
+```java
+package org.action;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class LoginAction extends ActionSupport{
+
+	private String username;
+	private String password;
+	
+	public String execute() throws Exception {
+		
+		if(getUsername().equals("aaa")
+			&& getPassword().equals("111")) 
+		{
+				// 將 getUsername() 的資料 放入 session 取名為 user
+				ActionContext.getContext().getSession()
+					.put("user", getUsername());
+				
+				// 將 getPassword() 的資料 放入 session 取名為 pass
+				ActionContext.getContext().getSession()
+					.put("pass", getPassword());
+				
+				return SUCCESS;
+		}
+		else
+		{
+			return ERROR;
+		}
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
+```
+
+<br>
+
+/src New XML File called ***struts*** (一定要命名為 struts)
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
+	
+<struts>
+
+	<package name="default" namespace="/" extends="struts-default">
+	
+		<action name="login" class="org.action.LoginAction">
+		
+			<result name="success">/welcome.jsp</result>
+			<result name="error">/error.jsp</result>
+		
+		</action>
+		
+	</package>
+
+</struts>
+```
+
+<br>
+
 /WebContent New JSP File called ***loginForm*** , ***welcome*** , ***error***
 
 `loginForm.jsp`
@@ -138,86 +217,3 @@ LoginForm
 </body>
 </html>
 ```
-
-<br>
-
-/src New Package called ***org.action***
-
-/src/org/action New Class called ***LoginAction***
-
-```java
-package org.action;
-
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-
-public class LoginAction extends ActionSupport{
-
-	private String username;
-	private String password;
-	
-	public String execute() throws Exception {
-		
-		if(getUsername().equals("aaa")
-			&& getPassword().equals("111")) 
-		{
-				// 將 getUsername() 的資料 放入 session 取名為 user
-				ActionContext.getContext().getSession()
-					.put("user", getUsername());
-				
-				// 將 getPassword() 的資料 放入 session 取名為 pass
-				ActionContext.getContext().getSession()
-					.put("pass", getPassword());
-				
-				return SUCCESS;
-		}
-		else
-		{
-			return ERROR;
-		}
-	}
-	
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-}
-```
-
-<br>
-
-/src New XML File called ***struts*** (一定要命名為 struts)
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE struts PUBLIC
-	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
-	"http://struts.apache.org/dtds/struts-2.5.dtd">
-	
-<struts>
-
-	<package name="default" namespace="/" extends="struts-default">
-	
-		<action name="login" class="org.action.LoginAction">
-		
-			<result name="success">/welcome.jsp</result>
-			<result name="error">/error.jsp</result>
-		
-		</action>
-		
-	</package>
-
-</struts>
-```
-
-
-
-
