@@ -363,6 +363,7 @@ public class LoginAction extends ActionSupport {
 <body bgcolor="#5CB3FF">
 
 <s:form action="login" method="post" theme="simple">
+
 	<table align="center">
 		<caption>會員登入</caption>
 		<tr>
