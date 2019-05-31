@@ -198,3 +198,142 @@ public class member {
 
 <br>
 
+/src New Package called ***com.DBCONN***
+
+/src/com/DBCONN New Class called ***DBconn***
+
+```java
+package com.DBCONN;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DBconn {
+	
+	public static Connection getConn() {
+		
+		String url = "jdbc:mysql://localhost:3306/gjun";
+		String user = "root";
+		String password = "11111111";
+		
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, user, password);
+			return conn;
+			
+		} catch (ClassNotFoundException e) {
+			
+			System.out.println("No Driver");
+			return null;
+			
+		} catch (SQLException e) {
+			
+			System.out.println("No Connection");
+			return null;
+		}
+	}
+	
+	public static void main(String[] args) {
+		
+		DBconn.getConn();
+	}
+}
+```
+
+<br>
+
+也可以設計成輸入 PortNumber 和 SchemaName
+
+```java
+package com.DBCONN;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DBconn {
+	
+	public static Connection getConn(String PortNum, String SchemaName) {
+		
+		String url = "jdbc:mysql://localhost:"+PortNum+"/"+SchemaName;
+		String user = "root";
+		String password = "11111111";
+		
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, user, password);
+			return conn;
+			
+		} catch (ClassNotFoundException e) {
+			
+			System.out.println("No Driver");
+			return null;
+			
+		} catch (SQLException e) {
+			
+			System.out.println("No Connection");
+			return null;
+		}
+	}
+	
+	public static void main(String[] args) {
+		
+		DBconn.getConn("3306","gjun");
+	}
+}
+```
+
+<br>
+
+/src New Package called ***com.DAO***
+
+/src/com/DAO New Class called ***MemberDAO***
+
+```java
+package com.DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.DBCONN.DBconn;
+
+public class MemberDAO {
+
+	public static void add(String name, String user, String password, String address, String tel, String sex,
+							String interest, String remark)
+	{
+		Connection conn = DBconn.getConn();
+		
+		String sql = "insert into member(name, user, password, address, tel, sex, interest, remark)"
+				     + "values(?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, name);
+			ps.setString(2, user);
+			ps.setString(3, password);
+			ps.setString(4, address);
+			ps.setString(5, tel);
+			ps.setString(6, sex);
+			ps.setString(7, interest);
+			ps.setString(8, remark);
+			
+			int count = ps.executeUpdate();
+			System.out.println("更新幾筆資料 : " + count);
+			
+		} catch (SQLException e) {
+			System.out.println("Error PreparedStatement");
+		}
+	}
+	
+	public static void main(String[] args) {
+		
+		MemberDAO.add("777", "777", "777", "777", "777", "777", "777", "777");
+	}
+}
+```
