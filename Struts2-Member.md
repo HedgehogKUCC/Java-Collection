@@ -739,8 +739,8 @@ public class add extends ActionSupport {
 </head>
 <body>
 
-帳號密碼有誤 <br>
-<a href="login.jsp">上一頁</a> <br>
+無此帳號 >>> <a href="add.jsp">註冊</a> <br>
+帳密錯誤 >>> <a href="login.jsp">上一頁</a> <br>
 <a href="index.jsp">回首頁</a>
 
 </body>
