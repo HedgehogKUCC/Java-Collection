@@ -837,7 +837,7 @@ public class add extends ActionSupport {
 </head>
 <body>
 
-帳號已被申請使用或資料填寫不完整<br>
+帳號已被申請<br>
 <a href="add.jsp">上一頁</a> <br>
 <a href="index.jsp">回首頁</a>
 
