@@ -7,7 +7,7 @@
 Create a new schema called ***gjun***
 
 ```mysql
-CREATE SCHEMA 'gjun' DEAFAULT CHARACTER utf8;
+CREATE SCHEMA 'gjun' DEAFAULT CHARACTER SET utf8 ;
 ```
 
 <br>

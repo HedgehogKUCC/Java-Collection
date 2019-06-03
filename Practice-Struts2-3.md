@@ -3,7 +3,7 @@
 Create a new schema called ***gjun***
 
 ```mysql
-CREATE SCHEMA 'gjun' DEFAULT CHARACTER utf8;
+CREATE SCHEMA 'gjun' DEFAULT CHARACTER SET utf8 ;
 ```
 
 <br>
