@@ -671,3 +671,212 @@ public class query extends ActionSupport {
 
 <br>
 
+/WebContent New JSP File
+
+`update.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>更改頁面</title>
+</head>
+<body>
+
+請輸入要更新的 ID 與 帳號
+
+<s:form method="post" action="update">
+
+	<s:textfield name="id" label="ID" />
+	<s:textfield name="loginName" label="帳號" />
+	<s:submit value="送出" />
+
+</s:form>
+
+</body>
+</html>
+```
+
+<br>
+
+`updateWelcome.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>WELCOME</title>
+<%
+	String name = request.getParameter("loginName");
+%>
+</head>
+<body>
+
+<%= name %> 您好，資料已更新成功<br>
+
+<a href="index.jsp">首頁</a>
+
+</body>
+</html>
+```
+
+<br>
+
+/src/action New Class
+
+`update.java`
+
+```java
+package action;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+import dao.UsersDAO;
+
+public class update extends ActionSupport{
+	
+	private Integer id;
+	private String loginName;
+	
+	public String execute() throws Exception {
+		
+		UsersDAO.updateUser(id, loginName);
+		
+		return SUCCESS;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getLoginName() {
+		return loginName;
+	}
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+}
+```
+
+<br>
+
+`struts.xml`
+
+```xml
+		<action name="update" class="action.update">
+		
+			<result name="success">updateWelcome.jsp</result>
+		
+		</action>
+```
+
+<br>
+
+/WebContent New JSP File
+
+`delete.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>刪除頁面</title>
+</head>
+<body>
+
+請輸入要刪除資料的 Primary Key
+
+<s:form method="post" action="delete">
+
+	<s:textfield name="id" label="ID" />
+	<s:submit value="送出" />
+
+</s:form>
+
+</body>
+</html>
+```
+
+<br>
+
+`deleteWelcome.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>WELCOME</title>
+</head>
+<body>
+
+<h3>已刪除資料成功</h3> <br>
+
+<a href="index.jsp">首頁</a>
+
+</body>
+</html>
+```
+
+<br>
+
+/src/action New Class
+
+`delete.java`
+
+```java
+package action;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+import dao.UsersDAO;
+
+public class delete extends ActionSupport {
+	
+	private Integer id;
+	
+	public String execute() throws Exception {
+		
+		UsersDAO.deleteUser(id);
+		
+		return SUCCESS;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+}
+```
+
+<br>
+
+`struts.xml`
+
+```xml
+		<action name="delete" class="action.delete">
+		
+			<result name="success">deleteWelcome.jsp</result>
+		
+		</action>
+```
+
+
