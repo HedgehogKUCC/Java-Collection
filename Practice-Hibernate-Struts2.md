@@ -879,4 +879,8 @@ public class delete extends ActionSupport {
 		</action>
 ```
 
+<br>
 
+提醒：
+
+可以去查為什麼 Users.java (POJO) 要 implements Serializable
