@@ -666,3 +666,120 @@ public class BookAction extends ActionSupport {
 </body>
 </html>
 ```
+
+<br>
+
+練習用 SQL語法 結合 Hibernate 查詢 資料庫內容
+
+/src/org/dao
+
+`bookDao.java`
+
+```java
+	public static List sq1() {
+		
+		String sql = "select * from book";
+		
+		Session se = DBCONN.Conn();
+		
+		SQLQuery sl = se.createSQLQuery(sql);
+		
+		sl.addEntity("B", Book.class);
+		
+		List li = sl.list();		// java.util.List
+		
+		return li;
+	}
+	
+	public static void miain(String[] args) {
+	
+		List li = bookDao.sql1();
+		
+		for( Object o : li ) {
+		
+			Book b = (Book) o;
+			
+			System.out.println
+			(
+				b.getId()+"\t"+
+				b.getISBN()+"\t"+
+   				b.getBookName()+"\t"+
+   				b.getPrice()
+   			);
+   		}
+	}
+```
+
+<br>
+
+```java
+	public static List sql2(int price) {
+	
+		String sql = "select * from book where price >= " + price;
+		
+		Session se = DBCONN.Conn();
+		
+		SQLQuery sl = se.createSQLQuery(sql);
+		
+		sl.addEntity("B", Book.class);
+		
+		List li = sl.list();
+		
+		return li;
+	}
+	
+	public static void main(String[] args) {
+	
+		List li = bookDao.sql2(777);
+		
+		for( Object o : li ) {
+		
+			Book b = (Book) o;
+			
+			System.out.println
+			(
+				b.getId()+"\t"+
+				b.getISBN()+"\t"+
+   				b.getBookName()+"\t"+
+   				b.getPrice()
+   			);
+   		}
+   	}
+```
+
+<br>
+
+```java
+	public static List sql3(int start, int end) {
+	
+		String sql = "select * from book where price between " + start + " and " + end;
+		
+		Session se = DBCONN.Conn();
+		
+		SQLQuery sl = se.createSQLQuery(sql);
+		
+		sl.addEntity();
+		
+		List li = sl.list();
+		
+		return li;
+	}
+	
+	public static void main(String[] args) {
+	
+		List li = bookDao.sql3(333, 7777777);
+		
+		for( Object o : li ) {
+		
+			Book b = (Book) o;
+			
+			System.out.println
+			(
+				b.getId()+"\t"+
+				b.getISBN()+"\t"+
+   				b.getBookName()+"\t"+
+   				b.getPrice()
+   			);
+   		}
+   	}
+```
