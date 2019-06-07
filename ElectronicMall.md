@@ -491,6 +491,628 @@ public class PorderDao {
 
 <br>
 
+/WebContent New Folder called ***Content***
 
+/WebContent/Content New Folder ***css*** 、 ***img*** 、 ***memeber*** 、 ***order***
 
+/WebContent New JSP File
 
+`index.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>首頁</title>
+<link rel="stylesheet" type="text/css" href="Content/css/st.css">
+</head>
+<body>
+	<table width=750 align=center>
+	
+		<tr>
+			<td class="title" align=center><jsp:include page="title.jsp" />
+		<tr>
+			<td height=400 class="content">
+			<table width=300 align=center>
+				<tr>
+					<td align=center><h3>欲購買商品請登入</h3>
+				<tr>
+					<td align=center><a href="Content/member/login.jsp">登入</a>
+			</table>
+		<tr>
+			<td class="end" align=center><jsp:include page="end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+`title.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<h1>GJUN電子商城</h1>
+</body>
+</html>
+```
+
+<br>
+
+`end.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<h2>台北市公園路30號3樓</h2>
+</body>
+</html>
+```
+
+<br>
+
+/WebContent/Content/css New CSS File
+
+`st.css`
+
+```css
+@charset "UTF-8";
+
+.title
+{
+	background-color: #547AA5;
+	color: #F87431;
+}
+
+.content
+{
+	background-color: #50D8D7;
+}
+
+.border
+{
+	border: 2px dotted black;
+}
+
+.end
+{
+	background-color: #547AA5;
+	color: #F87431;
+}
+```
+
+<br>
+
+Generate Deployment Descriptor Stub
+
+就會在 /WEB-INF 裡面產生 web.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+  <display-name>struts1</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <filter>
+  	<filter-name>struts2</filter-name>
+  	<filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>struts2</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+ 
+</web-app>
+```
+
+<br>
+
+/WebContent/Content/member New JSP File
+
+`login.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登入頁面</title>
+<link rel="stylesheet" type="text/css" href="../css/st.css">
+</head>
+<body>
+	<table width=750 align=center>
+	
+		<tr>
+			<td class="title" align=center><jsp:include page="../../title.jsp" />
+		<tr>
+			<td height=400 class="content">
+			<table width=300 align=center border=1 class="border">
+				<tr>
+					<td align=center>會員登入
+					
+					<s:form method="post" action="login" theme="simple">
+					
+						<table width=200 align=center>
+							<tr>
+								<td align=center>帳號<s:textfield name="name" />
+							<tr>
+								<td align=center>密碼<s:password name="password" />
+							<tr>
+								<td>
+									<s:submit value="確認" />
+									<s:reset value="重填" />
+									<a href="<s:url value="add.jsp" />">註冊</a>
+								</td>
+						</table>
+					
+					</s:form>
+			</table>
+		<tr>
+			<td class="end" align=center><jsp:include page="../../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+`add.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>註冊頁面</title>
+<link rel="stylesheet" type="text/css" href="../css/st.css">
+</head>
+<body>
+	<table width=750 align=center>
+	
+		<tr>
+			<td class="title" align=center><jsp:include page="../../title.jsp" />
+		<tr>
+			<td height=400 class="content">
+			<table width=300 align=center border=1 class="border">
+				<tr>
+					<td align=center>會員註冊
+					
+					<s:form method="post" action="addMem" theme="simple">
+					
+						<table width=200 align=center>
+							<tr>
+								<td align=center>帳號<s:textfield name="name" />
+							<tr>
+								<td align=center>密碼<s:password name="password" />
+							<tr>
+								<td>
+									<s:submit value="確認" />
+									<s:reset value="重填" />
+								</td>
+						</table>
+					
+					</s:form>
+			</table>
+		<tr>
+			<td class="end" align=center><jsp:include page="../../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+/WebContent/Content/order New JSP File
+
+`addOrder.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>訂購頁面</title>
+<link rel="stylesheet" type="text/css" href="../css/st.css">
+</head>
+<body>
+	<table width=750 align=center>
+	
+		<tr>
+			<td class="title" align=center><jsp:include page="../../title.jsp" />
+		<tr>
+			<td height=400 class="content">
+			<table width=300 align=center border=1 class="border">
+				<tr>
+					<td align=center>
+					
+					<s:form method="post" action="addOrder" theme="simple">
+					
+						<table width=200 align=center>
+							<tr>
+								<td colspan=2 align=center>新增訂單
+							<tr>
+								<td align=center>產品
+								<td>
+									<select name="product">
+										<option value="A">A
+										<option value="B">B
+										<option value="C">C
+									</select>
+							<tr>
+								<td align=center>數量
+								<td>
+									<input type="text" name="amount" value="0" />
+							<tr>
+								<td>
+									<s:submit value="送出" />
+								<td>
+									<s:reset value="重填" />
+						</table>
+					
+					</s:form>
+			</table>
+		<tr>
+			<td class="end" align=center><jsp:include page="../../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+`comfirmOrder.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>訂單確認頁面</title>
+<link rel="stylesheet" type="text/css" href="../css/st.css">
+</head>
+<body>
+	<table width=750 align=center>
+	
+		<tr>
+			<td class="title" align=center><jsp:include page="../../title.jsp" />
+		<tr>
+			<td height=400 class="content">
+			<table width=300 align=center border=1 class="border">
+			
+				<tr>
+					<td colspan=2 align=center>這是您的訂單
+				<tr>
+					<td>姓名
+					<td>${P.getName() }
+				<tr>
+					<td>產品
+					<td>${P.getProduct() }
+				<tr>
+					<td>數量
+					<td>${P.getAmount() }
+				<tr>
+					<td>總價
+					<td>${P.getSum() }
+				<tr>
+					<td colspan=2>
+					<a href="finish.jsp">OK</a>
+					
+			</table>
+		<tr>
+			<td class="end" align=center><jsp:include page="../../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+`finish.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    import="model.porder, dao.PorderDao"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>訂購完成頁面</title>
+<link rel="stylesheet" type="text/css" href="../css/st.css">
+</head>
+<%
+	porder p = (porder) request.getSession().getAttribute("P");
+	
+	PorderDao.add(p);
+	
+	// 加這行才能避免 重整頁面時 資料一直增加
+	session.removeAttribute("P");
+%>
+<body>
+	<table width=750 align=center>
+	
+		<tr>
+			<td class="title" align=center><jsp:include page="../../title.jsp" />
+		<tr>
+			<td height=400 class="content">
+			<table width=300 align=center border=1 class="border">
+			
+				<tr>
+					<td align=center>訂單完成
+				<tr>
+					<td align=center>
+					<a href="../../index.jsp">首頁</a>
+					
+			</table>
+		<tr>
+			<td class="end" align=center><jsp:include page="../../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+/src New Package called ***action***
+
+/src/action New Class
+
+`loginAction.java`
+
+```java
+package action;
+
+import java.util.Map;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+import dao.MemberDao;
+import model.member;
+
+public class loginAction extends ActionSupport {
+	
+	private String name;
+	private String password;
+	
+	public String execute() throws Exception {
+		
+		boolean b = MemberDao.checkID(name, password);
+		
+		member m;
+		
+		if( b == true )
+		{
+			m = new member(name, password);
+			
+			Map session = ActionContext.getContext().getSession();
+			
+			session.put("M", m);
+			
+			return SUCCESS;
+		}
+		else
+		{
+			return ERROR;
+		}
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
+```
+
+<br>
+
+`addOrder.java`
+
+```java
+package action;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+import model.member;
+import model.porder;
+
+public class addOrder extends ActionSupport {
+	
+	private String product;
+	private int amount;
+	
+	public String execute() throws Exception {
+		
+		Map session = ActionContext.getContext().getSession();
+		
+		member m = (member)session.get("M");
+		
+		/*
+		HttpServletRequest request = ServletActionContext.getRequest();
+		
+		member m = (member)request.getSession().getAttribute("M");
+		*/
+		
+		porder p = new porder(m.getName(), product, amount);
+		
+		ActionContext.getContext().getSession().put("P", p);
+		
+		return SUCCESS;
+	}
+	
+	public String getProduct() {
+		return product;
+	}
+	public void setProduct(String product) {
+		this.product = product;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+}
+```
+
+<br>
+
+`addMemberAction.java`
+
+```java
+package action;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+import dao.MemberDao;
+import model.member;
+
+public class addMemberAction extends ActionSupport{
+
+	private String name;
+	private String password;
+	
+	public String execute() throws Exception {
+		
+		boolean b = MemberDao.checkID(name);
+		
+		member m;
+		
+		if( b == false )
+		{
+			m = new member(name, password);
+			
+			MemberDao.add(m);
+			
+			return SUCCESS;
+		}
+		else
+		{
+			return ERROR;
+		}
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
+```
+
+<br>
+
+/src New XML File called ***struts***	&nbsp; &nbsp; &nbsp; (一定要命名為 struts)
+
+`struts.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+	<package name="default" extends="struts-default">
+	
+		<action name="login" class="action.loginAction">
+		
+			<result name="success">/Content/order/addOrder.jsp</result>
+			<result name="error">/Content/member/add.jsp</result>
+		
+		</action>
+		
+		<action name="addOrder" class="action.addOrder">
+		
+			<result name="success" type="redirect">/Content/order/comfirmOrder.jsp</result>
+		
+		</action>
+		
+		<action name="addMem" class="action.addMemberAction">
+		
+			<result name="success" type="redirect">/Content/member/login.jsp</result>
+			<result name="error">/Content/member/add.jsp</result>
+		
+		</action>
+	
+	</package>
+
+</struts>
+```
+
+<br>
+
+在這個練習中遇到的問題
+
+`addOrder.jsp` 轉頁至 `comfirmOrder.jsp` 時
+
+會發生 css樣式不見了連帶著 轉頁至 finish.jsp 也會發生 404
+
+這個問題也發生在
+
+註冊頁面 `add.jsp` 成功註冊好要轉頁回 `login.jsp` 會發生 css樣式不見
+
+多次嘗試後確認是因為經過struts2框架上轉頁才會發生這個問題
+
+上網查詢到 [解決方法](https://blog.csdn.net/u011847748/article/details/39394203)
