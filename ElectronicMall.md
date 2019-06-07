@@ -1116,3 +1116,20 @@ public class addMemberAction extends ActionSupport{
 多次嘗試後確認是因為經過struts2框架上轉頁才會發生這個問題
 
 上網查詢到 [解決方法](https://blog.csdn.net/u011847748/article/details/39394203)
+
+<br>
+
+展示頁面
+
+![index](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/index.jpg)
+
+![login](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/login.jpg)
+
+![addOrder](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/addOrder.jpg)
+
+![comfirmOrder](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/comfirmOrder.jpg)
+
+![finish](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/finish.jpg)
+
+![add](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/add.jpg)
+
