@@ -44,9 +44,9 @@ Projects : ***Java Application***
 
 Project Name : ***order***
 
-/src New Java Package called ***com***
+/src New Java Package called ***com***、***dbconn***、***dao***
 
-/src/com New Java Class
+/com New Java Class
 
 `porder.java`
 
@@ -150,12 +150,124 @@ public class porder {
     }
 
     public int getSum() {
+    
+        // 再次確認
+        sum = pro1*50 + pro2*60 + pro3*70;
+    	
         return sum;
     }
 }
 ```
 
 <br>
+
+/dbconn New Class
+
+`DBConn.java`
+
+```java
+package dbconn;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class DBConn {
+    
+    // 測試有無 Driver (mysql-connector-java-8.0.13.jar)
+    static 
+    {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("No Driver");
+        }
+        
+    }
+   
+    public static void main(String[] args) {
+        
+    }
+}
+```
+
+<br>
+
+掛 `mysql-connector-java-8.0.13.jar`
+
+`order` 點右鍵 `Properties` 點 `Libraries`
+
+點 `Add JAR/Folder` 選擇路徑
+
+<br>
+
+`DBConn.java`
+
+```java
+package dbconn;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class DBConn {
+    
+    static 
+    {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("No Driver");
+        }
+        
+    }
+    
+    // 測試有無連線至資料庫
+    public static Connection getConn() {
+        
+        String url = "jdbc:mysql://localhost:3306/order?useUnicode=true&characterEncoding=utf8";
+        String user = "root";
+        String pass = "11111111";
+        
+        // 使用 try-with-resource
+        try (Connection conn = DriverManager.getConnection(url, user, pass);){
+            
+            return conn;
+            
+        } catch (SQLException ex) {
+            
+            System.out.println("No Connection");
+            return null;
+        } 
+    }
+       
+    public static void main(String[] args) {
+        
+        DBConn d = new DBConn();
+        
+        System.out.println(d.getConn());
+    }
+}
+```
+
+注意：
+
+`?useUnicode=true&characterEncoding=utf8` 加上這句資料庫才能識別出中文
+
+<br>
+
+/dao New Class
+
+`OrderDao.java`
+
+```java
+
+```
+
+<br>
+
+### 設定 JavaDoc
 
 `order` 點右鍵 `Propertiesd` 點 Build &nbsp; >>> &nbsp; Documenting
 
@@ -167,6 +279,8 @@ Document Additional Tags :
 Browser Window Title : ***點餐系統API***
 
 <br>
+
+### .jar產生
 
 `order` 點右鍵 `Clean and Build`
 
@@ -341,7 +455,7 @@ Browser Window Title : ***點餐系統API***
 		<tr>
 			<td height=400 align=center id="content">
 			
-			<form method="post" action="add">
+			<form method="post" action="../add">
 			<table width=500 height=350 align=center id="border">
 				
 				<tr>
@@ -435,9 +549,76 @@ Browser Window Title : ***點餐系統API***
 </html>
 ```
 
-注意： &nbsp; &nbsp; `<img src=" 使用相對路徑 " >`
+注意：
+
+`<img src=" 使用相對路徑 " >`
+
+`<form  action="../add">`
 
 <br>
+
+`check.jsp`
+
+```jsp
+
+```
+
+<br>
+
+/src New Package called ***com***
+
+/com New Servlet
+
+`add.java`
+
+```servlet
+package com;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+@WebServlet("/add")
+public class add extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public add() {
+        super();
+    }
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		
+		String DESK = request.getParameter("desk");
+		int PRO1 = Integer.parseInt(request.getParameter("pro1"));
+		int PRO2 = Integer.parseInt(request.getParameter("pro2"));
+		int PRO3 = Integer.parseInt(request.getParameter("pro3"));
+		String MEMBER = request.getParameter("member");
+		
+		// 不用 import com.porder 是因為 package 都是 com
+		porder p = new porder(DESK, PRO1, PRO2, PRO3, MEMBER);
+		
+		HttpSession session = request.getSession();
+		
+		session.setAttribute("P", p);
+		
+		response.sendRedirect("add/check.jsp");
+	}
+}
+```
+
+<br>
+
+
+
+
+
 
 
 
