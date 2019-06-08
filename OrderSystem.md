@@ -182,3 +182,267 @@ Browser Window Title : ***點餐系統API***
 
 <br>
 
+/WebContent New JSP File
+
+`title.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<div id="title-font">Hedgehog Breakfast</div>
+</body>
+</html>
+```
+
+<br>
+
+`end.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<div id="end-font">台北市大安區公園路</div>
+</body>
+</html>
+```
+
+<br>
+
+`index.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hedgehog Ordering</title>
+<link rel="stylesheet" type="text/css" href="Content/css/ku.css">
+</head>
+<body>
+	<table width=600 align=center border=1>
+	
+		<tr>
+			<td align=center id="title">
+			<jsp:include page="title.jsp" />
+		
+		<tr>
+			<td height=400 align=center id="content">
+			
+			<table width=350 align=center>
+				
+				<tr>
+					<td align=center class="index"><a href="add/input.jsp">1) 新增</a>
+				<tr>
+					<td align=center class="index">2) 查詢
+				<tr>
+					<td align=center class="index">3) 修改
+				<tr>
+					<td align=center class="index">4) 刪除
+				
+			</table>
+			
+		<tr>
+			<td align=center id="end">
+			<jsp:include page="end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+/WebContent New Folder `Content`、`add`、`query`、`update`、`delete`、`img` ( 將圖片 `1.jpg`、`2.jpg`、`3.jpg` 放入 )
+
+/Content New Folder `css`
+
+/css New CSS File
+
+`ku.css`
+
+```css
+@charset "UTF-8";
+
+#title
+{
+	background-color: #F2E2BA;
+	color: #2554C7;
+}
+
+#title-font
+{
+	font-size: 60px;
+}
+
+#content
+{
+	background-color: #BAF2D8;
+}
+
+.index
+{
+	font-size: 36px;
+}
+
+#border
+{
+	border: 2px dotted black;
+}
+
+#end
+{
+	background-color: #F2E2BA;
+	color: #2554C7;
+}
+
+#end-font
+{
+	font-size: 40px;
+}
+```
+
+<br>
+
+/add New JSP File `input`、`check`、`finish`
+
+`input.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>訂餐頁面</title>
+<link rel="stylesheet" type="text/css" href="../Content/css/ku.css">
+</head>
+<body>
+	<table width=600 align=center border=1>
+	
+		<tr>
+			<td align=center id="title">
+			<jsp:include page="../title.jsp" />
+		
+		<tr>
+			<td height=400 align=center id="content">
+			
+			<form method="post" action="add">
+			<table width=500 height=350 align=center id="border">
+				
+				<tr>
+					<td colspan=3 align=center>桌號
+					<select name="desk">
+						<option value="A桌">A桌
+						<option value="B桌">B桌
+						<option value="C桌">C桌
+						<option value="D桌">D桌
+					</select>
+				
+				<tr>
+					<td align=center>A餐
+					<td align=center>B餐
+					<td align=center>C餐
+					
+				<tr>
+					<td align=center>
+					<img src="../Content/img/1.jpg" width="150" height="100" alt="product1">
+					<br>
+					數量:
+					<select name="pro1">
+						<option value="0">0
+						<option value="1">1
+						<option value="2">2
+						<option value="3">3
+						<option value="4">4
+						<option value="5">5
+						<option value="6">6
+						<option value="7">7
+						<option value="8">8
+						<option value="9">9
+						<option value="10">10
+					</select>
+					
+					<td align=center>
+					<img src="../Content/img/2.jpg" width="150" height="100" alt="product2">
+					<br>
+					數量:
+					<select name="pro2">
+						<option value="0">0
+						<option value="1">1
+						<option value="2">2
+						<option value="3">3
+						<option value="4">4
+						<option value="5">5
+						<option value="6">6
+						<option value="7">7
+						<option value="8">8
+						<option value="9">9
+						<option value="10">10
+					</select>
+					
+					<td align=center>
+					<img src="../Content/img/3.jpg" width="150" height="100" alt="product3">
+					<br>
+					數量:
+					<select name="pro3">
+						<option value="0">0
+						<option value="1">1
+						<option value="2">2
+						<option value="3">3
+						<option value="4">4
+						<option value="5">5
+						<option value="6">6
+						<option value="7">7
+						<option value="8">8
+						<option value="9">9
+						<option value="10">10
+					</select>
+				
+				<tr>
+					<td colspan=3 align=center>會員
+					<input type="radio" name="member" value="Y" checked />YES
+					<input type="radio" name="member" value="N" />NO
+					
+				<tr>
+					<td colspan=3 align=center>
+					<input type="submit" value="送出" />
+					<input type="reset" value="重填" />
+				
+				
+			</table>
+			</form>
+		<tr>
+			<td align=center id="end">
+			<jsp:include page="../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+注意： &nbsp; &nbsp; `<img src=" 使用相對路徑 " >`
+
+<br>
+
+
+
+
+
+
+
+
