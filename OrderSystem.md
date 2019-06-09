@@ -44,7 +44,7 @@ Projects : ***Java Application***
 
 Project Name : ***order***
 
-/src New Java Package called ***com***、***dbconn***、***dao***
+/src New Java Package called ***com***
 
 /com New Java Class
 
@@ -65,6 +65,8 @@ public class porder {
     private int pro3;
     private String member;
     private int sum;
+    
+    public porder() { }
     
     /**
      * 
@@ -151,29 +153,19 @@ public class porder {
 
     public int getSum() {
     
-        // 再次確認
+        // 再次計算確認
         sum = pro1*50 + pro2*60 + pro3*70;
     	
         return sum;
     }
-}
 ```
 
 <br>
 
-/dbconn New Class
-
-`DBConn.java`
-
 ```java
-package dbconn;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-public class DBConn {
-    
-    // 測試有無 Driver (mysql-connector-java-8.0.13.jar)
+	/**
+     * 檢查有無 Driver
+     */
     static 
     {
         try {
@@ -181,13 +173,7 @@ public class DBConn {
         } catch (ClassNotFoundException ex) {
             System.out.println("No Driver");
         }
-        
     }
-   
-    public static void main(String[] args) {
-        
-    }
-}
 ```
 
 <br>
@@ -200,55 +186,34 @@ public class DBConn {
 
 <br>
 
-`DBConn.java`
-
 ```java
-package dbconn;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-public class DBConn {
-    
-    static 
-    {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException ex) {
-            System.out.println("No Driver");
-        }
-        
-    }
-    
-    // 測試有無連線至資料庫
+	/**
+     * 
+     * @return 連上資料庫
+     * <br><br>
+     * EX:<br>
+     * Connection conn = porder.getConn();
+     */
     public static Connection getConn() {
         
         String url = "jdbc:mysql://localhost:3306/order?useUnicode=true&characterEncoding=utf8";
         String user = "root";
         String pass = "11111111";
         
-        // 使用 try-with-resource
-        try (Connection conn = DriverManager.getConnection(url, user, pass);){
+        try {
+            
+            Connection conn = DriverManager.getConnection(url, user, pass);
             
             return conn;
             
         } catch (SQLException ex) {
             
             System.out.println("No Connection");
+            
             return null;
-        } 
+            
+        }
     }
-       
-    public static void main(String[] args) {
-        
-        DBConn d = new DBConn();
-        
-        System.out.println(d.getConn());
-    }
-}
 ```
 
 注意：
@@ -257,12 +222,80 @@ public class DBConn {
 
 <br>
 
-/dao New Class
-
-`OrderDao.java`
+> 新增
 
 ```java
+	/**
+     * 增加訂單資料
+     */
+    public void add() {
+       
+       String sql = "insert into porder(desk, pro1, pro2, pro3, member, sum) values(?, ?, ?, ?, ?, ?)";
+       
+        try (   Connection conn = porder.getConn();
+                PreparedStatement ps = conn.prepareStatement(sql);) 
+        {
+            
+            ps.setString(1, getDesk());
+            ps.setInt(2, getPro1());
+            ps.setInt(3, getPro2());
+            ps.setInt(4, getPro3());
+            ps.setString(5, getMember());
+            ps.setInt(6, getSum());
+            
+            ps.executeUpdate();
+            
+        } catch (SQLException ex) {
+            
+            System.out.println("Error-add SQLException");
+        }
+    }
+```
 
+<br>
+
+> 查詢全部
+
+```java
+	/**
+     * 
+     * @return 查詢全部資料
+     */
+    public ResultSet queryAll() {
+        
+        String sql = "select * from porder";
+        
+        try(
+                Connection conn = porder.getConn();
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery(sql);
+           )
+        {
+            /*
+            while(rs.next())
+            {
+                System.out.println
+                (   
+                    rs.getInt("id")+"\t"+
+                    rs.getString("desk")+"\t"+
+                    rs.getInt("pro1")+"\t"+
+                    rs.getInt("pro2")+"\t"+
+                    rs.getInt("pro3")+"\t"+
+                    rs.getString("member")+"\t"+
+                    rs.getInt("sum")+"\t"
+                );
+            }
+            */
+            return rs;
+            
+        } catch (SQLException ex) {
+            
+            System.out.println("Error-queryAll");
+            
+            return null;
+        }
+    }
+}
 ```
 
 <br>
@@ -287,8 +320,6 @@ Browser Window Title : ***點餐系統API***
 `order` 點右鍵 `Generate Javadoc`
 
 將產生出來的資料從 `dist 資料夾` 裡面 Copy 至 `OrderSystemAPI 資料夾`
-
-還有將 `mysql-connector-java-8.0.13.jar` 放入 `OrderSystemAPI 資料夾`
 
 **這樣就打包好可以給其他人做使用**
 
