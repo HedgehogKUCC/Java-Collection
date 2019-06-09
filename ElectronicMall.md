@@ -1121,15 +1121,15 @@ public class addMemberAction extends ActionSupport{
 
 展示頁面
 
-![index](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/index.jpg)
+![index](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/index.jpg)
 
-![login](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/login.jpg)
+![login](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/login.jpg)
 
-![addOrder](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/addOrder.jpg)
+![addOrder](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/addOrder.jpg)
 
-![comfirmOrder](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/comfirmOrder.jpg)
+![comfirmOrder](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/comfirmOrder.jpg)
 
-![finish](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/finish.jpg)
+![finish](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/finish.jpg)
 
-![add](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/add.jpg)
+![add](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/add.jpg)
 
