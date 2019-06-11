@@ -462,6 +462,10 @@ Browser Window Title : ***點餐系統API***
 
 <br>
 
+![index.jsp](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/OrderSystem_img/OrderIndex.jpg)
+
+<br>
+
 /add New JSP File `input`、`check`、`finish`
 
 `input.jsp`
@@ -588,11 +592,141 @@ Browser Window Title : ***點餐系統API***
 
 <br>
 
+![input.jsp](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/OrderSystem_img/OrderInput.jpg)
+
+<br>
+
 `check.jsp`
 
 ```jsp
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    import="com.porder"%>
+<!-- import="com.porder" 查看 order.jar 當時的路徑  -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>確認頁面</title>
+<link rel="stylesheet" type="text/css" href="../Content/css/ku.css">
+</head>
+<%
+	porder p = (porder)session.getAttribute("P");
+%>
+<body>
+	<table width=600 align=center border=1>
+	
+		<tr>
+			<td align=center id="title">
+			<jsp:include page="../title.jsp" />
+		
+		<tr>
+			<td height=400 align=center id="content">
+			
+			<table width=500 height=350 align=center id="border">
+			
+				<tr>
+					<td colspan=2 align=center>
+					<h2>訂單確認</h2>
+				
+				<tr>
+					<td colspan=2 align=center>
+					<hr>
+				
+				<tr>
+					<td width=50 align=center>桌號
+					<td width=350 align=center>${P.getDesk() }
+				<tr>
+					<td width=50 align=center>A餐
+					<td width=350 align=center><%= p.getPro1() %>
+				<tr>
+					<td width=50 align=center>B餐
+					<td width=350 align=center><%= p.getPro2() %>
+				<tr>
+					<td width=50 align=center>C餐
+					<td width=350 align=center><%= p.getPro3() %>
+				<tr>
+					<td width=50 align=center>會員
+					<td width=350 align=center><%= p.getMember() %>
+					
+				<tr>
+					<td colspan=2 align=center>
+					<hr>
+					
+				<tr>
+					<td width=50 align=center>總共
+					<td width=350 align=center><%= p.getSum() %>
+					
+				<tr>
+					<td colspan=2 align=center>
+					<a href="input.jsp">上一頁</a>
+					<a href="finish.jsp">確定</a>
+				
+			</table>
+			
+		<tr>
+			<td align=center id="end">
+			<jsp:include page="../end.jsp" />
+	
+	</table>
+</body>
+</html>
 ```
+
+<br>
+
+![check.jsp](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/OrderSystem_img/OrderCheck.jpg)
+
+<br>
+
+`finish.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    import="com.porder"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>完成訂單頁面</title>
+<link rel="stylesheet" type="text/css" href="../Content/css/ku.css">
+</head>
+<%
+	porder p = (porder)session.getAttribute("P");
+	p.add();
+%>
+<body>
+	<table width=600 align=center border=1>
+	
+		<tr>
+			<td align=center id="title">
+			<jsp:include page="../title.jsp" />
+		
+		<tr>
+			<td height=400 align=center id="content">
+			
+			<table width=500 height=350 align=center id="border">
+			
+				<tr>
+					<td align=center>
+					<h1>訂單完成</h1>
+					<a href="../index.jsp">首頁</a>
+			
+			</table>
+			
+		<tr>
+			<td align=center id="end">
+			<jsp:include page="../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+![finish.jsp](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/OrderSystem_img/OrderFinish.jpg)
 
 <br>
 
@@ -623,8 +757,11 @@ public class add extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		response.setContentType("text/html; charset=UTF-8");
+		//將請求的資訊，設定字元編碼:UTF-8
 		request.setCharacterEncoding("UTF-8");
+		
+		//將回應的資訊，設定內容類型: MIME: text/html; 字元設定 = UTF-8
+		response.setContentType("text/html; charset=UTF-8");
 		
 		String DESK = request.getParameter("desk");
 		int PRO1 = Integer.parseInt(request.getParameter("pro1"));
@@ -632,7 +769,6 @@ public class add extends HttpServlet {
 		int PRO3 = Integer.parseInt(request.getParameter("pro3"));
 		String MEMBER = request.getParameter("member");
 		
-		// 不用 import com.porder 是因為 package 都是 com
 		porder p = new porder(DESK, PRO1, PRO2, PRO3, MEMBER);
 		
 		HttpSession session = request.getSession();
