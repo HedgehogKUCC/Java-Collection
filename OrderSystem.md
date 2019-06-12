@@ -461,7 +461,6 @@ Browser Window Title : ***點餐系統API***
 	font-size: 40px;
 }
 
-<%-
 #caption
 {
 	font-size: 46px;
