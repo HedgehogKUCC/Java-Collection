@@ -257,45 +257,47 @@ public class porder {
 > 查詢全部
 
 ```java
-	/**
+ 	/**
      * 
      * @return 查詢全部資料
      */
-    public ResultSet queryAll() {
+    public static ResultSet queryAll() {
         
         String sql = "select * from porder";
         
-        try(
-                Connection conn = porder.getConn();
-                Statement st = conn.createStatement();
-                ResultSet rs = st.executeQuery(sql);
-           )
+        ResultSet rs = null;
+        
+        try
         {
-            /*
-            while(rs.next())
-            {
-                System.out.println
-                (   
-                    rs.getInt("id")+"\t"+
-                    rs.getString("desk")+"\t"+
-                    rs.getInt("pro1")+"\t"+
-                    rs.getInt("pro2")+"\t"+
-                    rs.getInt("pro3")+"\t"+
-                    rs.getString("member")+"\t"+
-                    rs.getInt("sum")+"\t"
-                );
-            }
-            */
-            return rs;
+            Connection conn = porder.getConn();
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(sql);
             
         } catch (SQLException ex) {
             
             System.out.println("Error-queryAll");
             
-            return null;
-        }
+        } 
+        
+        return rs;
     }
-}
+    
+    /* 測試
+    public static void main(String[] args) throws SQLException {
+       
+        ResultSet rs = porder.queryAll();
+        
+       while(rs.next()) {
+           
+           System.out.println
+           (
+                   "ID : "+rs.getInt("id")+
+                   "DESK : "+rs.getString("desk")
+           );
+           
+       }
+    }
+    */
 ```
 
 <br>
@@ -457,6 +459,13 @@ Browser Window Title : ***點餐系統API***
 #end-font
 {
 	font-size: 40px;
+}
+
+<%-
+#caption
+{
+	font-size: 46px;
+	border: 2px dotted yellow;
 }
 ```
 
@@ -781,6 +790,134 @@ public class add extends HttpServlet {
 ```
 
 <br>
+
+/WebContent/query New JSP File
+
+> 查詢主頁
+
+`query.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查詢頁面</title>
+<link rel="stylesheet" type="text/css" href="../Content/css/ku.css">
+</head>
+<body>
+	<table width=600 align=center border=1>
+	
+		<tr>
+			<td align=center id="title">
+			<jsp:include page="../title.jsp" />
+		
+		<tr>
+			<td height=400 align=center id="content">
+			
+			<table width=350 align=center>
+				
+				<caption id="caption">請選擇查詢條件</caption>
+				
+				<tr>
+					<td align=center class="index"><a href="queryAll.jsp">1) 全部</a>
+				<tr>
+					<td align=center class="index"><a href="queryDesk.jsp">2) 桌號</a>
+				<tr>
+					<td align=center class="index"><a href="querySum.jsp">3) 總價</a>
+				<tr>
+					<td align=center class="index"><a href="queryMember.jsp">4) 會員</a>
+				<tr>
+					<td align=center><a href="../index.jsp">首頁</a>
+				
+			</table>
+			
+		<tr>
+			<td align=center id="end">
+			<jsp:include page="../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+> 查詢全部
+
+`queryAll.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.porder, java.sql.ResultSet" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查詢全部</title>
+<link rel="stylesheet" type="text/css" href="../Content/css/ku.css" >
+</head>
+<body>
+	<table width=600 align=center border=1>
+	
+		<tr>
+			<td align=center id="title">
+			<jsp:include page="../title.jsp" />
+		
+		<tr>
+			<td height=400 align=center id="content">
+			
+			<table width=350 align=center>
+				
+				<tr>
+				<%
+					ResultSet rs = porder.queryAll();
+					
+					out.println("<table width=500 align=center>");
+					out.println("<tr bgcolor=yellow align=center><td>ID<td>DESK<td>A餐<td>B餐<td>C餐<td>會員<td>總價");
+					
+					while(rs.next())
+					{
+						out.println
+						(
+							"<tr align=center>"+
+								"<td>"+rs.getInt("id")+
+								"<td>"+rs.getString("desk")+
+								"<td>"+rs.getInt("pro1")+
+								"<td>"+rs.getInt("pro2")+
+								"<td>"+rs.getInt("pro3")+
+								"<td>"+rs.getString("member")+
+								"<td>"+rs.getInt("sum")
+						);
+					}
+					
+					out.println
+					(
+						"<tr><td colspan=7 align=center>"+
+						"<a href=\"query.jsp\">上一頁</a>"+"&nbsp; &nbsp;"+
+						"<a href=\"../index.jsp\">回首頁</a>"
+					);
+				%>
+				
+			</table>
+			
+		<tr>
+			<td align=center id="end">
+			<jsp:include page="../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+
+
+
 
 
 
