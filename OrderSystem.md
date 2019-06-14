@@ -287,17 +287,177 @@ public class porder {
        
         ResultSet rs = porder.queryAll();
         
-       while(rs.next()) {
+        while(rs.next()) {
            
            System.out.println
            (
-                   "ID : "+rs.getInt("id")+
-                   "DESK : "+rs.getString("desk")
+                "ID : "+rs.getInt("id")+
+                "\tDESK : "+rs.getString("desk")+
+                "\tPRO1 : "+rs.getInt("pro1")+
+                "\tPRO2 : "+rs.getInt("pro2")+
+                "\tPRO3 : "+rs.getInt("pro3")+
+                "\tMEMBER : "+rs.getString("member")+
+                "\tSUM : "+rs.getInt("sum")
            );
            
        }
     }
     */
+```
+
+<br>
+
+> 查詢桌號
+
+```java
+	/**
+     * 
+     * @param desk 桌號
+     * @return 回傳查詢的桌號資料
+     */
+    public static ResultSet queryDesk(String desk) {
+        
+        String sql = "select * from porder where desk='"+desk+"'";
+            
+        ResultSet rs = null;
+        
+        try {
+                  
+            Connection conn = porder.getConn();
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(sql);
+            
+        } catch (SQLException ex) {
+            
+            System.out.println("Error-queryDesk");
+        }
+        
+        return rs;
+    }
+    
+    public static void main(String[] args) throws SQLException {
+       
+        ResultSet rs = porder.queryDesk("A桌");
+        
+        while(rs.next()) {
+           
+           System.out.println
+           (
+                "ID : "+rs.getInt("id")+
+                "\tDESK : "+rs.getString("desk")+
+                "\tPRO1 : "+rs.getInt("pro1")+
+                "\tPRO2 : "+rs.getInt("pro2")+
+                "\tPRO3 : "+rs.getInt("pro3")+
+                "\tMEMBER : "+rs.getString("member")+
+                "\tSUM : "+rs.getInt("sum")
+           );
+           
+       }
+    }
+```
+
+<br>
+
+> 查詢總價
+
+```java
+	/**
+     * 
+     * @param sum 總價
+     * @return 回傳查詢的總價資料
+     */
+    public static ResultSet querySum(int start, int end) {
+        
+        String sql = "select * from porder where sum between '"+start+"' and '"+end+"'";
+        
+        ResultSet rs = null;
+        
+        try {
+            
+            Connection conn = porder.getConn();
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(sql);
+            
+        } catch (SQLException ex) {
+        
+            System.out.println("Error-querySum");
+        }
+        
+        return rs;
+    }
+    
+    public static void main(String[] args) throws SQLException {
+       
+        ResultSet rs = porder.querySum(180,500);
+        
+        while(rs.next()) {
+           
+           System.out.println
+           (
+                "ID : "+rs.getInt("id")+
+                "\tDESK : "+rs.getString("desk")+
+                "\tPRO1 : "+rs.getInt("pro1")+
+                "\tPRO2 : "+rs.getInt("pro2")+
+                "\tPRO3 : "+rs.getInt("pro3")+
+                "\tMEMBER : "+rs.getString("member")+
+                "\tSUM : "+rs.getInt("sum")
+           );
+           
+       }
+    }
+```
+
+<br>
+
+> 查詢會員＋總價範圍
+
+```java
+	/**
+     * 
+     * @param member 會員
+     * @param start 起始值
+     * @param end   終端值
+     * @return 回傳查詢是否為會員且總價範圍內的資料
+     */
+    public static ResultSet queryMember(String member, int start, int end) {
+        
+        String sql = "select * from porder where member = '"+member+"'and sum between '"+start+"' and '"+end+"'";
+        
+        ResultSet rs = null;
+        
+        try {
+            
+            Connection conn = porder.getConn();
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(sql);
+            
+        } catch (SQLException ex) {
+            
+            System.out.println("Error-queryMember");
+        }
+        
+        return rs;
+    }
+    
+    public static void main(String[] args) throws SQLException {
+       
+        ResultSet rs = porder.queryMember("Y",100,600);
+        
+        while(rs.next()) {
+           
+           System.out.println
+           (
+                "ID : "+rs.getInt("id")+
+                "\tDESK : "+rs.getString("desk")+
+                "\tPRO1 : "+rs.getInt("pro1")+
+                "\tPRO2 : "+rs.getInt("pro2")+
+                "\tPRO3 : "+rs.getInt("pro3")+
+                "\tMEMBER : "+rs.getString("member")+
+                "\tSUM : "+rs.getInt("sum")
+           );
+           
+       }
+    }
 ```
 
 <br>
@@ -914,6 +1074,210 @@ public class add extends HttpServlet {
 
 <br>
 
+> 查詢桌號
+
+`queryDesk.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.porder, java.sql.ResultSet" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查詢桌號</title>
+<link rel="stylesheet" type="text/css" href="../Content/css/ku.css" >
+</head>
+<body>
+	<table width=600 align=center border=1>
+	
+		<tr>
+			<td align=center id="title">
+			<jsp:include page="../title.jsp" />
+		
+		<tr>
+			<td height=400 align=center id="content">
+			
+			<form method="post" action="queryDesk.jsp" >
+			
+				<table width=350 align=center>
+					
+					<tr>
+						<td align=center><h3>依桌號查詢</h3>
+					<tr>
+						<td align=center>桌號
+						<select name="desk">
+							<option value="A桌">A桌
+							<option value="B桌">B桌
+							<option value="C桌">C桌
+							<option value="D桌">D桌
+						</select>
+						<input type="submit" value="OK" />
+			
+				</table>
+				
+			</form>	
+				<hr>
+				<%
+					// 避免中文產生亂碼
+					request.setCharacterEncoding("UTF-8");
+				
+					String DESK = request.getParameter("desk");
+				
+					ResultSet rs ;
+					
+					// String 初始值為 null，利用這個 null 來作一個判斷。
+					if ( DESK == null )
+					{
+						rs = porder.queryAll();
+					}
+					else
+					{
+						rs = porder.queryDesk(DESK);
+					}
+					
+					out.println("<table width=500 align=center>");
+					out.println("<tr bgcolor=yellow align=center><td>ID<td>DESK<td>A餐<td>B餐<td>C餐<td>會員<td>總價");
+					
+					while(rs.next())
+					{
+						out.println
+						(
+							"<tr align=center>"+
+								"<td>"+rs.getInt("id")+
+								"<td>"+rs.getString("desk")+
+								"<td>"+rs.getInt("pro1")+
+								"<td>"+rs.getInt("pro2")+
+								"<td>"+rs.getInt("pro3")+
+								"<td>"+rs.getString("member")+
+								"<td>"+rs.getInt("sum")
+						);
+					}
+					
+					out.println("<tr><td colspan=7 align=center>");
+					out.println("</table>");
+	
+				%>
+				<br>
+				<a href="query.jsp">上一頁</a>
+				<a href="../index.jsp">回首頁</a>
+			
+		<tr>
+			<td colspan=7 align=center id="end">
+			<jsp:include page="../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+> 查詢總價範圍
+
+`querySum.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.porder, java.sql.ResultSet" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查詢總價範圍</title>
+<link rel="stylesheet" type="text/css" href="../Content/css/ku.css" >
+</head>
+<body>
+	<table width=600 align=center border=1>
+	
+		<tr>
+			<td align=center id="title">
+			<jsp:include page="../title.jsp" />
+		
+		<tr>
+			<td height=400 align=center id="content">
+			
+			<form method="post" action="querySum.jsp" >
+			
+				<table width=350 align=center>
+					
+					<tr>
+						<td align=center><h3>依總價查詢</h3>
+					<tr>
+						<td align=center>
+						金額:
+						從<input type="text" name="start" size="10" value="0" />
+						到<input type="text" name="end" size="10" value="0" />
+						<input type="submit" value="OK" />
+			
+				</table>
+				
+			</form>	
+				<hr>
+				<%
+					// 避免中文產生亂碼
+					request.setCharacterEncoding("UTF-8");
+				
+					ResultSet rs ;
+					
+					int START = Integer.parseInt(request.getParameter("start"));
+					int END = Integer.parseInt(request.getParameter("end"));
+					
+					if ( START == 0 && END == 0 )
+					{
+						rs = porder.queryAll();
+					}
+					else
+					{
+						rs = porder.querySum(START, END);
+					}
+					
+					out.println("<table width=500 align=center>");
+					out.println("<tr bgcolor=yellow align=center><td>ID<td>DESK<td>A餐<td>B餐<td>C餐<td>會員<td>總價");
+					
+					while(rs.next())
+					{
+						out.println
+						(
+							"<tr align=center>"+
+								"<td>"+rs.getInt("id")+
+								"<td>"+rs.getString("desk")+
+								"<td>"+rs.getInt("pro1")+
+								"<td>"+rs.getInt("pro2")+
+								"<td>"+rs.getInt("pro3")+
+								"<td>"+rs.getString("member")+
+								"<td>"+rs.getInt("sum")
+						);
+					}
+					
+					out.println("<tr><td colspan=7 align=center>");
+					out.println("</table>");
+	
+				%>
+				<br>
+				<a href="query.jsp">上一頁</a>
+				<a href="../index.jsp">回首頁</a>
+			
+		<tr>
+			<td colspan=7 align=center id="end">
+			<jsp:include page="../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+> 查詢會員和總價範圍
+
+`queryMember.jsp`
+
+```jsp
+
+```
 
 
 
