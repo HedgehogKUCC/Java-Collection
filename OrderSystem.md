@@ -1470,7 +1470,7 @@ if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
 
 <br>
 
-> 更新訂單
+> 修改訂單
 
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -1480,7 +1480,7 @@ if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
 <html>
 <head>
 <meta charset="UTF-8">
-<title>更新頁面</title>
+<title>修改頁面</title>
 <link rel="stylesheet" type="text/css" href="../Content/css/ku.css">
 </head>
 <body>
@@ -1495,9 +1495,9 @@ if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
 			
 			<form method="post" action="update.jsp" >
 			
-				<table width=350 align=center>
+				<table width=500 align=center>
 					
-					<caption id="caption">更新訂單</caption>
+					<caption id="caption">修改訂單</caption>
 					
 					<tr>
 						<td align=center>單號
@@ -1510,7 +1510,6 @@ if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
 							<option value="C桌">C桌
 							<option value="D桌">D桌
 						</select>
-						<br>
 						
 						A餐
 						<select name="pro1">
@@ -1560,9 +1559,7 @@ if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
 						
 						會員
 						<input type="radio" name="member" value="Y" checked>YES
-						<input type="radio" name="member" value="N">NO
-						<br>
-						
+						<input type="radio" name="member" value="N">NO &nbsp;
 						<input type="submit" value="OK" />
 			
 				</table>
@@ -1634,20 +1631,88 @@ if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
 
 <br>
 
+> 刪除訂單
 
+`delete.jsp`
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.porder, java.sql.ResultSet" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>刪除頁面</title>
+<link rel="stylesheet" type="text/css" href="../Content/css/ku.css">
+</head>
+<body>
+	<table width=600 align=center border=1>
+	
+		<tr>
+			<td align=center id="title">
+			<jsp:include page="../title.jsp" />
+		
+		<tr>
+			<td height=400 align=center id="content">
+			
+			<form method="post" action="delete.jsp" >
+			
+				<table width=350 align=center>
+					
+					<caption id="caption">刪除訂單</caption>
+					
+					<tr>
+						<td align=center>輸入單號
+						<input type="text" name="id" size="3" value="0" />
+						<input type="submit" value="OK" />
+			
+				</table>
+				
+			</form>	
+				<hr>
+				<%
+					request.setCharacterEncoding("UTF-8");
+					
+					String ID = request.getParameter("id");
+					
+					if( ID != null)
+					{
+						porder.delete(Integer.parseInt(ID));
+					}
+					
+					ResultSet rs = porder.queryAll();
+					
+					out.println("<table width=500 align=center>");
+					out.println("<tr bgcolor=yellow align=center><td>ID<td>DESK<td>A餐<td>B餐<td>C餐<td>會員<td>總價");
+					
+					while(rs.next())
+					{
+						out.println
+						(
+							"<tr align=center>"+
+								"<td>"+rs.getInt("id")+
+								"<td>"+rs.getString("desk")+
+								"<td>"+rs.getInt("pro1")+
+								"<td>"+rs.getInt("pro2")+
+								"<td>"+rs.getInt("pro3")+
+								"<td>"+rs.getString("member")+
+								"<td>"+rs.getInt("sum")
+						);
+					}
+					
+					out.println("<tr><td colspan=7 align=center>");
+					out.println("</table>");
+				%>
+				<br>
+				<a href="../index.jsp">回首頁</a>
+			
+		<tr>
+			<td colspan=7 align=center id="end">
+			<jsp:include page="../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
 
