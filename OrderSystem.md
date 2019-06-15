@@ -462,6 +462,80 @@ public class porder {
 
 <br>
 
+> 修改訂單
+
+```java
+   /**
+     * <p>Description: 修改訂單</p>
+     * @param id      主鍵
+     * @param desk    桌號
+     * @param pro1    產品1
+     * @param pro2    產品2
+     * @param pro3    產品3
+     * @param member  是否會員
+     */
+    public static void update(int id, String desk, int pro1, int pro2, int pro3, String member) {
+        
+        int sum = pro1*50 + pro2*60 + pro3*70;
+        String sql = "update porder set desk = '"+desk+"',pro1 = '"+pro1+"',pro2 = '"+pro2+"',pro3 = '"+pro3+"',member = '"+member+"',sum = '"+sum+"' where id = '"+id+"'";
+        
+        try {
+            
+            Connection conn = porder.getConn();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            
+            ps.executeUpdate();
+            
+        } catch (SQLException ex) {
+            
+            System.out.println("Error-update");
+        }
+    }
+    
+    public static void main(String[] args) throws SQLException {
+       
+        porder.update(6, "D桌", 7, 7, 7, "Y");
+    }
+```
+
+<br>
+
+> 刪除訂單
+
+```java
+   /**
+     * <p>Description: 刪除訂單</p>
+     * @param id  主鍵
+     */
+    public static void delete(int id) {
+        
+        String sql = "delete from porder where id = '"+id+"'";
+        
+        try {
+            
+            Connection conn = porder.getConn();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            
+            ps.executeUpdate();
+            
+        } catch (SQLException ex) {
+            
+            System.out.println("Error-delete");
+        }
+    }
+    
+    public static void main(String[] args) throws SQLException {
+       
+        porder.delete(6);
+    }
+```
+
+注意：
+
+id 是資料庫自動增加，所以刪除後也無法在新增和修改。
+
+<br>
+
 ### 設定 JavaDoc
 
 `order` 點右鍵 `Propertiesd` 點 Build &nbsp; >>> &nbsp; Documenting
@@ -1219,18 +1293,21 @@ public class add extends HttpServlet {
 				<%
 					// 避免中文產生亂碼
 					request.setCharacterEncoding("UTF-8");
+					
+					int START, END;
 				
-					ResultSet rs ;
-					
-					int START = Integer.parseInt(request.getParameter("start"));
-					int END = Integer.parseInt(request.getParameter("end"));
-					
-					if ( START == 0 && END == 0 )
+				    String st = request.getParameter("start");
+				    String en = request.getParameter("end");
+				
+				    ResultSet rs ;
+					if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
 					{
 						rs = porder.queryAll();
 					}
 					else
 					{
+						START = Integer.parseInt(st);
+						END = Integer.parseInt(en);
 						rs = porder.querySum(START, END);
 					}
 					
@@ -1276,8 +1353,288 @@ public class add extends HttpServlet {
 `queryMember.jsp`
 
 ```jsp
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.porder, java.sql.ResultSet" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查詢會員＆總價</title>
+<link rel="stylesheet" type="text/css" href="../Content/css/ku.css">
+</head>
+<body>
+	<table width=600 align=center border=1>
+	
+		<tr>
+			<td align=center id="title">
+			<jsp:include page="../title.jsp" />
+		
+		<tr>
+			<td height=400 align=center id="content">
+			
+			<form method="post" action="queryMember.jsp" >
+			
+				<table width=350 align=center>
+					
+					<tr>
+						<td align=center><h3>依會員＆總價查詢</h3>
+					<tr>
+						<td align=center>會員
+						<input type="radio" name="member" value="Y" checked >Yes
+						<input type="radio" name="member" value="N">NO
+						<br>金額:
+						從<input type="text" name="start" size="10" value="0" />
+						到<input type="text" name="end" size="10" value="0" />
+						<input type="submit" value="OK" />
+			
+				</table>
+				
+			</form>	
+				<hr>
+				<%
+					// 避免中文產生亂碼
+					request.setCharacterEncoding("UTF-8");
+					
+					int START, END;
+				
+					String MEMBER = request.getParameter("member");
+					String st = request.getParameter("start");
+					String en = request.getParameter("end");
+					
+					ResultSet rs ;
+					if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
+					{
+						rs = porder.queryAll();
+					}
+					else
+					{
+						START = Integer.parseInt(st);
+						END = Integer.parseInt(en);
+						rs = porder.queryMember(MEMBER,START, END);
+					}
+					
+					out.println("<table width=500 align=center>");
+					out.println("<tr bgcolor=yellow align=center><td>ID<td>DESK<td>A餐<td>B餐<td>C餐<td>會員<td>總價");
+					
+					while(rs.next())
+					{
+						out.println
+						(
+							"<tr align=center>"+
+								"<td>"+rs.getInt("id")+
+								"<td>"+rs.getString("desk")+
+								"<td>"+rs.getInt("pro1")+
+								"<td>"+rs.getInt("pro2")+
+								"<td>"+rs.getInt("pro3")+
+								"<td>"+rs.getString("member")+
+								"<td>"+rs.getInt("sum")
+						);
+					}
+					
+					out.println("<tr><td colspan=7 align=center>");
+					out.println("</table>");
+	
+				%>
+				<br>
+				<a href="query.jsp">上一頁</a>
+				<a href="../index.jsp">回首頁</a>
+			
+		<tr>
+			<td colspan=7 align=center id="end">
+			<jsp:include page="../end.jsp" />
+	
+	</table>
+</body>
+</html>
 ```
+
+注意：
+
+`querySum.jsp`、`queryMember.jsp`
+
+第一次進去時的確 String 等於 null，所以才會顯示出查詢全部。
+
+但是把初始值兩個 0 都去掉只剩空格就會產生出
+
+`java.lang.NumberFormatException: For input string: ""`
+
+代表是輸入空字符，所以多加上 `.length() == 0` 
+
+```java
+if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
+{
+	rs = porder.queryAll();
+}
+```
+
+<br>
+
+> 更新訂單
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.porder, java.sql.ResultSet"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>更新頁面</title>
+<link rel="stylesheet" type="text/css" href="../Content/css/ku.css">
+</head>
+<body>
+	<table width=600 align=center border=1>
+	
+		<tr>
+			<td align=center id="title">
+			<jsp:include page="../title.jsp" />
+		
+		<tr>
+			<td height=400 align=center id="content">
+			
+			<form method="post" action="update.jsp" >
+			
+				<table width=350 align=center>
+					
+					<caption id="caption">更新訂單</caption>
+					
+					<tr>
+						<td align=center>單號
+						<input type="text" name="id" size="3" value="0"/>
+						
+						桌號
+						<select name="desk">
+							<option value="A桌">A桌
+							<option value="B桌">B桌
+							<option value="C桌">C桌
+							<option value="D桌">D桌
+						</select>
+						<br>
+						
+						A餐
+						<select name="pro1">
+							<option value="0">0
+							<option value="1">1
+							<option value="2">2
+							<option value="3">3
+							<option value="4">4
+							<option value="5">5
+							<option value="6">6
+							<option value="7">7
+							<option value="8">8
+							<option value="9">9
+							<option value="10">10
+						</select>
+						
+						B餐
+						<select name="pro2">
+							<option value="0">0
+							<option value="1">1
+							<option value="2">2
+							<option value="3">3
+							<option value="4">4
+							<option value="5">5
+							<option value="6">6
+							<option value="7">7
+							<option value="8">8
+							<option value="9">9
+							<option value="10">10
+						</select>
+						
+						C餐
+						<select name="pro3">
+							<option value="0">0
+							<option value="1">1
+							<option value="2">2
+							<option value="3">3
+							<option value="4">4
+							<option value="5">5
+							<option value="6">6
+							<option value="7">7
+							<option value="8">8
+							<option value="9">9
+							<option value="10">10
+						</select>
+						<br>
+						
+						會員
+						<input type="radio" name="member" value="Y" checked>YES
+						<input type="radio" name="member" value="N">NO
+						<br>
+						
+						<input type="submit" value="OK" />
+			
+				</table>
+				
+			</form>	
+				<hr>
+				<%
+					request.setCharacterEncoding("UTF-8");
+					
+					int ID, PRO1, PRO2, PRO3;
+					
+					String id = request.getParameter("id");
+					String DESK = request.getParameter("desk");
+					String p1 = request.getParameter("pro1");
+					String p2 = request.getParameter("pro2");
+					String p3 = request.getParameter("pro3");
+					String MEMBER = request.getParameter("member");
+					
+					try
+					{
+						if(id != null && DESK != null && p1 != null && p2 != null && p3 != null)
+						{
+							ID = Integer.parseInt(id);
+							PRO1 = Integer.parseInt(p1);
+							PRO2 = Integer.parseInt(p2);
+							PRO3 = Integer.parseInt(p3);
+						
+							porder.update(ID, DESK, PRO1, PRO2, PRO3, MEMBER);
+						}
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
+					
+					ResultSet rs = porder.queryAll();
+					
+					out.println("<table width=500 align=center>");
+					out.println("<tr bgcolor=yellow align=center><td>ID<td>DESK<td>A餐<td>B餐<td>C餐<td>會員<td>總價");
+					
+					while(rs.next())
+					{
+						out.println
+						(
+							"<tr align=center>"+
+								"<td>"+rs.getInt("id")+
+								"<td>"+rs.getString("desk")+
+								"<td>"+rs.getInt("pro1")+
+								"<td>"+rs.getInt("pro2")+
+								"<td>"+rs.getInt("pro3")+
+								"<td>"+rs.getString("member")+
+								"<td>"+rs.getInt("sum")
+						);
+					}
+					
+					out.println("<tr><td colspan=7 align=center>");
+					out.println("</table>");
+					
+				%>
+				<br>
+				<a href="../index.jsp">回首頁</a>
+			
+		<tr>
+			<td colspan=7 align=center id="end">
+			<jsp:include page="../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+
 
 
 
