@@ -1,3 +1,5 @@
+# Struts2 + Hibernate
+
 ### MySQL
 
 Create a new schema callled ***company***
