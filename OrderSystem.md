@@ -1076,6 +1076,8 @@ public class add extends HttpServlet {
 </html>
 ```
 
+![query](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/OrderSystem_img/OrderQuery.jpg)
+
 <br>
 
 > 查詢全部
@@ -1145,6 +1147,8 @@ public class add extends HttpServlet {
 </body>
 </html>
 ```
+
+![queryAll](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/OrderSystem_img/OrderQueryAll.jpg)
 
 <br>
 
@@ -1246,6 +1250,8 @@ public class add extends HttpServlet {
 </html>
 ```
 
+![queryDesk](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/OrderSystem_img/OrderQueryDesk.jpg)
+
 <br>
 
 > 查詢總價範圍
@@ -1345,6 +1351,8 @@ public class add extends HttpServlet {
 </body>
 </html>
 ```
+
+![querySum](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/OrderSystem_img/OrderQuerySum.jpg)
 
 <br>
 
@@ -1467,6 +1475,8 @@ if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
 	rs = porder.queryAll();
 }
 ```
+
+![queryMember](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/OrderSystem_img/OrderQueryMember.jpg)
 
 <br>
 
@@ -1629,6 +1639,8 @@ if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
 </html>
 ```
 
+![update](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/OrderSystem_img/OrderUpdate.jpg)
+
 <br>
 
 > 刪除訂單
@@ -1715,4 +1727,12 @@ if ( st == null || en == null || st.length() == 0 || en.length() == 0 )
 </body>
 </html>
 ```
+
+![delete](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/OrderSystem_img/OrderDelete.jpg)
+
+<br>
+
+接下來要修改將`JSP頁面`中有`商業邏輯`編寫至`Servlet`
+
+利用`EL`、`JSTL`讓`JSP頁面`沒有`Scriptlet`
 
