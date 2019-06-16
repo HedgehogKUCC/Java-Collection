@@ -577,6 +577,12 @@ public class PorderDao {
 ```css
 @charset "UTF-8";
 
+#admin
+{
+	color: #FF00FF;
+	font-size: 30px;
+}
+
 .title
 {
 	background-color: #547AA5;
@@ -591,6 +597,12 @@ public class PorderDao {
 .border
 {
 	border: 2px dotted black;
+}
+
+.row
+{
+	font-size: 36px;
+	text-align: center;
 }
 
 .end
@@ -1382,3 +1394,148 @@ public class loginAction extends ActionSupport {
 
 <br>
 
+### 設計管理者登入
+
+/WebContent/Content New Folder `admin`
+
+/admin New JSP File
+
+`admin.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>管理者頁面</title>
+<link rel="stylesheet" type="text/css" href="../css/st.css" >
+</head>
+<body>
+	<table width=750 align=center>
+	
+		<tr>
+			<td class="title" align=center><jsp:include page="../../title.jsp" />
+		<tr>
+			<td height=400 class="content">
+			<table width=300 align=center class="border">
+			
+				<caption id="admin">${M.getName() } 歡迎您回來</caption>
+			
+				<tr>
+					<td class="row"><a href="../admin/query.jsp">查詢</a>
+				<tr>
+					<td class="row"><a href="../admin/update.jsp">修改</a>
+				<tr>
+					<td class="row"><a href="../admin/delete.jsp">刪除</a>
+				
+			</table>
+		<tr>
+			<td class="end" align=center><jsp:include page="../../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+`query.jsp`
+
+```jsp
+
+```
+
+<br>
+
+`update.jsp`
+
+```jsp
+
+```
+
+<br>
+
+`delete.jsp`
+
+```jsp
+
+```
+
+<br>
+
+
+`loginAction.java`
+
+```java
+package action;
+
+import java.util.Map;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+import dao.MemberDao;
+import model.member;
+
+public class loginAction extends ActionSupport {
+	
+	private String name;
+	private String password;
+	
+	public String execute() throws Exception {
+		
+		//boolean b = MemberDao.checkID(name, password);
+		
+		ApplicationContext a = new ClassPathXmlApplicationContext("dao/spring3.xml");
+		
+		member m = (member)a.getBean("sp3M");
+		
+		MemberDao md = (MemberDao)a.getBean("sp3MD");
+		
+		Boolean b = md.checkID(name, password);
+		
+		if( b == true )
+		{
+			m = new member(name, password);
+			
+			// 增加判斷，帳號和密碼有沒有符合為管理者權限，符合就轉頁至管理者頁面。
+			if(m.getName().equals("KUCC") && m.getPassword().equals("777")) {
+				
+				Map session = ActionContext.getContext().getSession();
+				
+				session.put("M", m);
+				
+				return "Admin";
+			}
+			
+			Map session = ActionContext.getContext().getSession();
+			
+			session.put("M", m);
+			
+			return SUCCESS;
+		}
+		else
+		{
+			return ERROR;
+		}
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
+```
