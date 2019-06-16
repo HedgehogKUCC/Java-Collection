@@ -1,4 +1,4 @@
-# Struts2 + Hibernate
+# Struts2 + Hibernate + Spring
 
 ### MySQL
 
@@ -1134,4 +1134,149 @@ public class addMemberAction extends ActionSupport{
 ![finish](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/finish.jpg)
 
 ![add](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/add.jpg)
+
+<br>
+
+## 整合 Spring
+
+/src New XML
+
+`spring1.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <bean id="m2" class="model.member"/>
+    
+    <bean id="p" class="model.porder">
+    
+    	<constructor-arg index="0" value="abc"/>
+    	<constructor-arg index="1" value="A"/>
+    	<constructor-arg index="2" value="10"/>
+    
+    </bean>
+
+</beans>
+```
+
+<br>
+
+`spring2.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <bean id="MD" class="dao.MemberDao" />
+    <bean id="PD" class="dao.PorderDao" />
+    
+</beans>
+```
+
+<br>
+
+### 修改 MemberDao
+
+```java
+public static void add(String name, String password) {
+		
+		member m = new member(name, password);
+		
+		Session se = DBConn.getSession();
+		
+		Transaction tx = null;
+		
+		try {
+			
+			tx = se.beginTransaction();
+			
+			se.save(m);
+			
+			tx.commit();
+			
+		} catch (Exception e) {
+			
+			if( tx != null )
+				tx.rollback();
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			se.close();
+		}
+	}
+```
+
+<br>
+
+### 修改 addMemberAction
+
+```java
+package action;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+import dao.MemberDao;
+import model.member;
+
+public class addMemberAction extends ActionSupport{
+
+	private String name;
+	private String password;
+	
+	public String execute() throws Exception {
+		
+		//boolean b = MemberDao.checkID(name);
+		
+		ApplicationContext a2 = new ClassPathXmlApplicationContext("spring2.xml");
+		
+		MemberDao m = (MemberDao)a2.getBean("MD");
+		
+		boolean b = m.checkID(name);
+		
+		if( b == false )
+		{
+			m.add(name, password);
+			
+			return SUCCESS;
+		}
+		else
+		{
+			return ERROR;
+		}
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
+```
+
+<br>
+
+
 
