@@ -1186,6 +1186,8 @@ public class addMemberAction extends ActionSupport{
 
 <br>
 
+/src/dao New XML
+
 `spring3.xml`
 
 ```xml
@@ -1202,6 +1204,8 @@ public class addMemberAction extends ActionSupport{
     
 </beans>
 ```
+
+為了修改 `loginAction.java` 將需要的 `model`、`dao` 整合成另一個 spring
 
 <br>
 
@@ -1322,7 +1326,7 @@ public class loginAction extends ActionSupport {
 		
 		//boolean b = MemberDao.checkID(name, password);
 		
-		ApplicationContext a = new ClassPathXmlApplicationContext("spring3.xml");
+		ApplicationContext a = new ClassPathXmlApplicationContext("dao/spring3.xml");
 		
 		member m = (member)a.getBean("sp3M");
 		
@@ -1361,6 +1365,20 @@ public class loginAction extends ActionSupport {
 }
 ```
 
+思考解決 member m = (member) a.getBean("sp3M");
 
+讓這句直接能結合 m = new member(name, password);
 
+`spring3.xml`
+
+```xml
+<bean id="sp3M" class="model.member" >
+
+<constructor-arg index="0" value="接收登入用戶名稱"/>
+<constructor-arg index="1" value="接收登入用戶密碼"/>
+
+</bean>
+```
+
+<br>
 
