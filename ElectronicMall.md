@@ -1439,6 +1439,8 @@ public class loginAction extends ActionSupport {
 </html>
 ```
 
+![admin](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/admin.jpg)
+
 <br>
 
 `query.jsp`
