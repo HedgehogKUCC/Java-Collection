@@ -1186,6 +1186,25 @@ public class addMemberAction extends ActionSupport{
 
 <br>
 
+`spring3.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <bean id="sp3M" class="model.member" />
+    <bean id="sp3MD" class="dao.MemberDao" />
+    
+</beans>
+```
+
+<br>
+
 ### 修改 MemberDao
 
 ```java
@@ -1277,6 +1296,71 @@ public class addMemberAction extends ActionSupport{
 ```
 
 <br>
+
+### 修改 loginAction
+
+```java
+package action;
+
+import java.util.Map;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+import dao.MemberDao;
+import model.member;
+
+public class loginAction extends ActionSupport {
+	
+	private String name;
+	private String password;
+	
+	public String execute() throws Exception {
+		
+		//boolean b = MemberDao.checkID(name, password);
+		
+		ApplicationContext a = new ClassPathXmlApplicationContext("spring3.xml");
+		
+		member m = (member)a.getBean("sp3M");
+		
+		MemberDao md = (MemberDao)a.getBean("sp3MD");
+		
+		Boolean b = md.checkID(name, password);
+		
+		if( b == true )
+		{
+			m = new member(name, password);
+			
+			Map session = ActionContext.getContext().getSession();
+			
+			session.put("M", m);
+			
+			return SUCCESS;
+		}
+		else
+		{
+			return ERROR;
+		}
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
+```
+
 
 
 
