@@ -1491,9 +1491,9 @@ public class loginAction extends ActionSupport {
 </html>
 ```
 
-![queryAll-1]()
+![queryAll-1](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/queryAll-1.jpg)
 
-![queryAll-2]()
+![queryAll-2](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/queryAll-2.jpg)
 
 <br>
 
