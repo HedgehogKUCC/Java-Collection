@@ -104,11 +104,11 @@
 修改 `query.jsp` 部分內容
 
 ```jsp
-              <c:forEach var="rs" items="${rs}">
-					<tr>
-						<td align="right"><c:out value="${rs}" /> </td>
-					</tr>
-				</c:forEach>
+<c:forEach var="rs" items="${rs}">
+   <tr>
+      <td align="right"><c:out value="${rs}" /> </td>
+   </tr>
+</c:forEach>
 ```
 
 ![queryAll-3](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/queryAll-3.jpg)
@@ -370,7 +370,6 @@ import model.member;
 
 public class queryAllAction extends ActionSupport {
 
-	private int id;
 	private String name;
 	private String password;
 	
@@ -402,12 +401,6 @@ public class queryAllAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getName() {
 		return name;
 	}
