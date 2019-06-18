@@ -308,7 +308,7 @@ public class loginAction extends ActionSupport {
 		// 取出這 ResultSet 物件欄位的數量、類型和屬性
 		ResultSetMetaData md = rs.getMetaData();
 		
-		// 獲取行的數量
+		// 獲取列的數量
 		int columnCount = md.getColumnCount();		
 		
 		while(rs.next()) {
