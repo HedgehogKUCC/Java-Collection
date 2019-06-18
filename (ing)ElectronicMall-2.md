@@ -431,25 +431,3 @@ public class queryAllAction extends ActionSupport {
 
 <br>
 
-待解決問題：
-
-現在受限於 `<c:forEach var="i" begin="0" end="10" step="1">`
-
-應改用 
-
-```java
-<c:forEach var="rs" items="${ rs }" >
-	<tr>
-		<td> ${ rs.id } </td>
-		<td> ${ rs.name } </td>
-		<td> ${ rs.password } </td>
-	</tr>
-</c:forEach>
-```
-
-想到要先將 `member` implements Serializable
-
-將 `ArrayList<String>` 改成 `ArrayList<member>`
-
-
-
