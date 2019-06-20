@@ -520,7 +520,7 @@ public class queryAllAction extends ActionSupport {
 
 但顯示出來的表格似乎需要修改
 
-![queryHibAll-1]()
+![queryHibAll-1](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/queryHibAll-1.jpg)
 
 <br>
 
@@ -538,4 +538,8 @@ public class queryAllAction extends ActionSupport {
 
 變得好看了 ！！！
 
-![queryHibAll-2]()
+![queryHibAll-2](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/queryHibAll-2.jpg)
+
+<br>
+
+
