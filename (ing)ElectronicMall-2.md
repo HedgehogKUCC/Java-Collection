@@ -30,9 +30,9 @@
 				<tr>
 					<td class="row"><a href="../admin/query.jsp">查詢</a>
 				<tr>
-					<td class="row"><a href="../admin/update.jsp">修改</a>
+					<td class="row"><a href="../admin/update.jsp">更新用戶密碼</a>
 				<tr>
-					<td class="row"><a href="../admin/delete.jsp">刪除</a>
+					<td class="row"><a href="../admin/delete.jsp">刪除用戶</a>
 				
 			</table>
 		<tr>
