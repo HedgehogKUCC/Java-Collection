@@ -938,3 +938,179 @@ public class updateMemberAction extends ActionSupport {
 
 <br>
 
+> 刪除用戶
+
+`MemberDao.java`
+
+```java
+    public static void delete(int x) {
+		
+		Session se = DBConn.getSession();
+		
+		member m = (member)se.get(member.class, new Integer(x));
+		
+		Transaction tx = null;
+		
+		try {
+			
+			tx = se.beginTransaction();
+			
+			se.delete(m);
+			
+			tx.commit();
+			
+		} catch(Exception e) {
+			
+			if( tx != null )
+				tx.rollback();
+			e.printStackTrace();
+			
+		} finally {
+			se.close();
+		}
+	}
+```
+
+<br>
+
+/src/action New Class
+
+`deleteUser.java`
+
+```java
+package action;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+import dao.MemberDao;
+
+public class deleteUser extends ActionSupport {
+	
+	private int id;
+	private String name;
+	private String password;
+	
+	public String execute() throws Exception {
+		
+		ApplicationContext a = new ClassPathXmlApplicationContext("query.xml");
+		
+		MemberDao m = (MemberDao) a.getBean("query");
+		
+		m.delete(id);
+		
+		List li = m.queryHibAll();
+		
+		Map session = ActionContext.getContext().getSession();
+		
+		session.put("rs", li);
+		
+		return SUCCESS;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
+```
+
+<br>
+
+`struts.xml`
+
+```xml
+<action name="deleteUser" class="action.deleteUser">
+		
+   <result name="success">/Content/admin/delete.jsp</result>
+		
+</action>
+```
+
+<br>
+
+`delete.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>刪除用戶頁面</title>
+<link rel="stylesheet" type="text/css" href="../css/st.css" >
+</head>
+<body>
+	<table width=750 align=center>
+	
+		<tr>
+			<td class="title" align=center><jsp:include page="../../title.jsp" />
+		<tr>
+			<td align=right height=400 class="content"><a href="admin.jsp">管理者頁面</a>
+			
+			<form method="post" action="deleteUser">
+				<table width=300 align=center>
+					
+					<tr>
+						<td align=center>
+						
+						<%-- <input name="name" /> 屬性 name 一定要記得 --%>
+						刪除用戶ID<input type="text" name="id" size="3" value="0" />
+						<input type="submit" value="送出" />
+				
+				</table>
+			</form>
+			<hr>
+			<table width=300 align=center border="1" class="border">
+			
+				<tr align=center bgcolor="yellow">
+					<td>ID<td>NAME<td>PASSWORD
+					
+				<c:forEach var="rs" items="${rs}">
+					
+					<tr align=center>
+						<td><c:out value="${rs.getId()}" /> </td>
+						<td><c:out value="${rs.getName()}" /> </td>
+						<td><c:out value="${rs.getPassword()}" /> </td>
+					</tr>
+					
+				</c:forEach>	
+				
+			</table>
+		
+		<tr colspan="3">
+			<td class="end" align=center><jsp:include page="../../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+![deleteUser]()
+
+<br>
+
+
+
