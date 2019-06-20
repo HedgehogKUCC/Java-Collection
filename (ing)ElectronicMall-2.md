@@ -431,3 +431,111 @@ public class queryAllAction extends ActionSupport {
 
 <br>
 
+使用 Hibernate 進行 SQL語法 搜尋資料庫
+
+`MemberDao.java`
+
+```java
+    public static List queryHibAll() {
+		
+		// SQL語法搜尋 member
+		String sql = "select * from member";
+		
+		// Hibernate 取得 Session
+		Session se = DBConn.getSession();
+		
+		// 建立 SQLQuery，將 sql 帶入參數使用
+		SQLQuery sq = se.createSQLQuery(sql);
+		
+		// 資料庫與模組映射
+		sq.addEntity("M", member.class);
+		
+		// 轉成 List
+		List li = sq.list();
+		
+		return li;
+	}
+```
+
+記得將 `queryAllAction.java` 裡面這行修改成 `List list = m.queryHibAll();`
+
+<br>
+
+`query.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查詢頁面</title>
+<link rel="stylesheet" type="text/css" href="../css/st.css" >
+</head>
+<body>
+	<table width=750 align=center>
+	
+		<tr>
+			<td class="title" align=center><jsp:include page="../../title.jsp" />
+		<tr>
+			<td height=400 class="content">
+			<form method="post" action="queryAll">
+				<table width=300 align=center>
+					
+					<tr>
+						<td align=center><input type="submit" value="查詢全部" />
+				
+				</table>
+			</form>
+			<hr>
+			<table width=300 align=center border="1" class="border">
+			
+				<tr align=center bgcolor="yellow">
+					<td>ID<td>NAME<td>PASSWORD
+					
+				<c:forEach var="rs" items="${rs}">
+					
+					<tr align=center>
+						<td><c:out value="${rs.getId()}" /> </td>
+						<td><c:out value="${rs.getName()}" /> </td>
+						<td><c:out value="${rs.getPassword()}" /> </td>
+					</tr>
+					
+				</c:forEach>	
+						
+			</table>
+		<tr colspan="3">
+			<td class="end" align=center><jsp:include page="../../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+使用 Hibernate 取出來的 `<c:out value="${rs}" />` 會是記憶體位置 `model.member@40fd540b`
+
+由此可知已經有搜尋到資料庫資料，將藉由`EL語法`取出每列各欄位的值
+
+但顯示出來的表格似乎需要修改
+
+![queryHibAll-1]()
+
+<br>
+
+修改樣式表
+
+`st.css`
+
+```css
+.border
+{
+	border: dotted black;
+	border-collapse: collapse;
+}
+```
+
+變得好看了 ！！！
+
+![queryHibAll-2]()
