@@ -423,7 +423,7 @@ public class queryAllAction extends ActionSupport {
 ```xml
 	<action name="queryAll" class="action.queryAllAction">
 		
-			<result name="success">/Content/admin/query.jsp</result>
+			<result name="success">/Content/admin/queryAll.jsp</result>
 			<!--  <result name="error">/Content/admin/admin.jsp</result> -->
 		
    </action>
@@ -461,7 +461,7 @@ public class queryAllAction extends ActionSupport {
 
 <br>
 
-`query.jsp`
+`queryAll.jsp`
 
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -471,7 +471,7 @@ public class queryAllAction extends ActionSupport {
 <html>
 <head>
 <meta charset="UTF-8">
-<title>查詢頁面</title>
+<title>查詢全部頁面</title>
 <link rel="stylesheet" type="text/css" href="../css/st.css" >
 </head>
 <body>
@@ -480,7 +480,8 @@ public class queryAllAction extends ActionSupport {
 		<tr>
 			<td class="title" align=center><jsp:include page="../../title.jsp" />
 		<tr>
-			<td height=400 class="content">
+			<td align=right height=400 class="content"><a href="admin.jsp">管理者頁面</a>
+			
 			<form method="post" action="queryAll">
 				<table width=300 align=center>
 					
@@ -504,8 +505,9 @@ public class queryAllAction extends ActionSupport {
 					</tr>
 					
 				</c:forEach>	
-						
+				
 			</table>
+		
 		<tr colspan="3">
 			<td class="end" align=center><jsp:include page="../../end.jsp" />
 	
@@ -541,5 +543,224 @@ public class queryAllAction extends ActionSupport {
 ![queryHibAll-2](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/queryHibAll-2.jpg)
 
 <br>
+
+`query.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查詢頁面</title>
+<link rel="stylesheet" type="text/css" href="../css/st.css" >
+</head>
+<body>
+	<table width=750 align=center>
+	
+		<tr>
+			<td class="title" align=center><jsp:include page="../../title.jsp" />
+		<tr>
+			<td height=400 class="content">
+			<table width=300 align=center class="border">
+			
+				<tr>
+					<td class="row"><a href="../admin/queryAll.jsp">查詢全部用戶</a>
+				<tr>
+					<td class="row"><a href="../admin/queryUser.jsp">查詢帳號</a>
+				
+			</table>
+		
+		<tr>
+			<td class="end" align=center><jsp:include page="../../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+<br>
+
+> 查詢帳號
+
+`MemberDao.java`
+
+```java
+    public static List queryUser(String name) {
+		
+		String sql = "select * from member where name='"+name+"'";
+		
+		Session se = DBConn.getSession();
+		
+		SQLQuery sq = se.createSQLQuery(sql);
+		
+		sq.addEntity("M", member.class);
+		
+		List li = sq.list();
+		
+		return li;
+	}
+	
+	public static void main(String[] args) throws SQLException {
+		
+		List li = MemberDao.queryUser("gjun");
+		
+		for( Object o : li)
+		{
+			member m = (member) o;
+			
+			System.out.println
+			(
+					m.getId()+"\t"+
+					m.getName()+"\t"+
+					m.getPassword()	
+			);
+		}
+	}
+```
+
+<br>
+
+/src/action New Class
+
+`queryUserAction.java`
+
+```java
+package action;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+import dao.MemberDao;
+
+public class queryUserAction extends ActionSupport{
+	
+	private String name;
+	private String password;
+	
+	public String execute() throws Exception {
+		
+		ApplicationContext a = new ClassPathXmlApplicationContext("query.xml");
+		
+		MemberDao m = (MemberDao)a.getBean("query");
+		
+		List li = m.queryUser(name);
+		
+		if( li.size() != 0)
+		{
+			Map session = ActionContext.getContext().getSession();	
+		
+			session.put("rs", li);
+		
+			return SUCCESS;
+		}
+		else
+		{
+			return ERROR;
+		}
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
+```
+
+<br>
+
+`struts.xml`
+
+```xml
+<action name="queryUser" class="action.queryUserAction">
+		
+   <result name="success">/Content/admin/queryUser.jsp</result>
+   <result name="error">/Content/admin/admin.jsp</result>
+		
+</action>
+```
+
+<br>
+
+`queryUser.jsp`
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查詢帳號頁面</title>
+<link rel="stylesheet" type="text/css" href="../css/st.css" >
+</head>
+<body>
+	<table width=750 align=center>
+	
+		<tr>
+			<td class="title" align=center><jsp:include page="../../title.jsp" />
+		<tr>
+			<td align=right height=400 class="content"><a href="admin.jsp">管理者頁面</a>
+			
+			<form method="post" action="queryUser">
+				<table width=300 align=center>
+					
+					<tr>
+						<td align=center>
+						
+						<%-- <input name="name" /> 屬性 name 一定要記得 --%>
+						帳號<input type="text" name="name" size="20" maxlength="20" value="null" />
+						<input type="submit" value="送出" />
+				
+				</table>
+			</form>
+			<hr>
+			<table width=300 align=center border="1" class="border">
+			
+				<tr align=center bgcolor="yellow">
+					<td>ID<td>NAME<td>PASSWORD
+					
+				<c:forEach var="rs" items="${rs}">
+					
+					<tr align=center>
+						<td><c:out value="${rs.getId()}" /> </td>
+						<td><c:out value="${rs.getName()}" /> </td>
+						<td><c:out value="${rs.getPassword()}" /> </td>
+					</tr>
+					
+				</c:forEach>	
+				
+			</table>
+		
+		<tr colspan="3">
+			<td class="end" align=center><jsp:include page="../../end.jsp" />
+	
+	</table>
+</body>
+</html>
+```
+
+![]()
+
+<br>
+
+
 
 
