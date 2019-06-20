@@ -1108,9 +1108,9 @@ public class deleteUser extends ActionSupport {
 </html>
 ```
 
-![deleteUser]()
+![deleteUser](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/deleteUser.jpg)
 
-<br>
+
 
 
 
