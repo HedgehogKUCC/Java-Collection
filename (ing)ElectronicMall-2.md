@@ -757,7 +757,7 @@ public class queryUserAction extends ActionSupport{
 </html>
 ```
 
-![]()
+![queryUser](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/queryUser.jpg)
 
 <br>
 
