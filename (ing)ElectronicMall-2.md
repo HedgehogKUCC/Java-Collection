@@ -934,7 +934,7 @@ public class updateMemberAction extends ActionSupport {
 </html>
 ```
 
-![updateMember]()
+![updateMember](https://github.com/HedgehogKUCC/Java-Collection/blob/master/picture/ElectronicMall_img/updateMember.jpg)
 
 <br>
 
